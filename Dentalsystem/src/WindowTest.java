@@ -1,3 +1,5 @@
+import com.sun.xml.internal.ws.client.sei.ResponseBuilder;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -7,47 +9,81 @@ import java.awt.*;
 public class WindowTest extends JFrame {
 
     private JPanel contentPane;
-    private JMenuBar topMenu;
+    private JPanel topMenu;
 
-    public WindowTest(int width, int height){
+
+    public WindowTest(int w, int h) {
 
         // Colours we'll need to paint the UI (RGB format)
         Color lightBlue = new Color(200, 200, 255);
-        Color bgBlue    = new Color(175, 175, 255);
+        Color bgBlue = new Color(175, 175, 255);
+        Color white = new Color(255,255,255, 0);
+
 
 
         // Layout manager  stuff - GridBag layout is being used
-        contentPane = new JPanel(new GridBagLayout());
-        contentPane.setSize(width, height);
-        contentPane.setPreferredSize(new Dimension(width, height));
+
+        JPanel contentPane = new JPanel(new GridBagLayout());
+        contentPane.setPreferredSize(new Dimension(w, h));
         contentPane.setBackground(bgBlue);
         GridBagConstraints c = new GridBagConstraints(); // For managing UI
 
+
         // General configs and properties
         // TBC
+        /*
+        Box blank = new Box(1);
+        blank.setSize(w,50);
+        blank.setPreferredSize(new Dimension(w, 50));
+        blank.setBackground(white);
+        */
+
 
         // Top Menu Stuff Here
-        topMenu = new JMenuBar();
-        topMenu.setPreferredSize(new Dimension(width, Math.round(height*0.1f)));
+        JPanel topMenu = new JPanel();
+        topMenu.setBackground(Color.black);
 
-        JMenuItem menuItem = new JMenuItem("Home"); // Add action listeners later
+        /*
+        JButton menuItem  = new JButton("Home"); // Add action listeners later
+        menuItem.setBackground(white);
+        topMenu.add(menuItem);
+        topMenu.setLayout(new GridLayout(1,2,7,10));
+        menuItem = new JButton("Appointments");
         menuItem.setBackground(lightBlue);
         topMenu.add(menuItem);
-        menuItem = new JMenuItem("Appointments");
+        menuItem = new JButton("Health Care Plan");
         menuItem.setBackground(lightBlue);
         topMenu.add(menuItem);
-        menuItem = new JMenuItem("Health Care Plan");
+        menuItem = new JButton("Patients");
         menuItem.setBackground(lightBlue);
         topMenu.add(menuItem);
-        menuItem = new JMenuItem("Contact");
+        menuItem = new JButton("Contact");
         menuItem.setBackground(lightBlue);
         topMenu.add(menuItem);
+        menuItem.setOpaque(false 50%);
+        menuItem.setContentAreaFilled(false);
+        menuItem.setBorderPainted(false);
 
 
-        this.setJMenuBar(topMenu);
-        this.setResizable(false);
+*/
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        c.anchor = GridBagConstraints.FIRST_LINE_START;
+        c.gridy = 0;
+        c.gridx = 0;
+        c.gridheight = (int) 0.3*h;
+        c.gridwidth  = w;
+        c.weightx = 1.0;
+        c.weighty = 0.3;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        contentPane.add(topMenu, c);
+
+
+
         this.add(contentPane);
+        this.setResizable(false);
         this.pack(); // Size according to elements
         this.repaint(); // Update entire screen
+
+
     }
 }
