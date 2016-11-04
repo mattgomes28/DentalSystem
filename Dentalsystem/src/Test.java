@@ -7,5 +7,7 @@ public class Test {
     public static void main(String[] args){
         JFrame mainWindow = new WindowTest(1000,500);
         mainWindow.setVisible(true);
+        mainWindow.pack();
+
     }
 }

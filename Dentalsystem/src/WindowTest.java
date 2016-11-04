@@ -20,69 +20,68 @@ public class WindowTest extends JFrame {
         Color bgBlue = new Color(175, 175, 255);
         Color white = new Color(255,255,255, 20);
 
+        // Layout manager
+        GridBagLayout gbl = new GridBagLayout();
+        GridLayout glMenu = new GridLayout(1,0,0,10);
+       // BoxLayout blTop = new BoxLayout();
 
-
-        // Layout manager  stuff - GridBag layout is being used
-
-        JPanel contentPane = new JPanel(new GridBagLayout());
+        //main window space
+        JPanel contentPane = new JPanel(gbl);
         contentPane.setPreferredSize(new Dimension(w, h));
         contentPane.setBackground(lightBlue);
-        GridBagConstraints c = new GridBagConstraints(); // For managing UI
 
-
-        // General configs and properties
-        // TBC
-
-        //header bit for logo
-        JPanel header = new JPanel();
+        //header
+        JPanel header = new JPanel(gbl);
         header.setPreferredSize(new Dimension(w,140));
         header.setBackground(Color.white);
 
-        // Top Menu Stuff Here
-        JPanel topMenu = new JPanel();
+        // Top Menu
+        JPanel topMenu = new JPanel(gbl);
         topMenu.setPreferredSize(new Dimension(w, 60));
         topMenu.setBackground(bgBlue);
-
 
 
         JButton menuItem  = new JButton("Home"); // Add action listeners later
         menuItem.setBackground(white);
         topMenu.add(menuItem);
-        topMenu.setLayout(new GridLayout(1,2,7,10));
+        topMenu.setLayout(glMenu);
 
         menuItem = new JButton("Appointments");
-        menuItem.setBackground(lightBlue);
+        menuItem.setBackground(white);
         topMenu.add(menuItem);
+        topMenu.setLayout(glMenu);
 
         menuItem = new JButton("Health Care Plan");
-        menuItem.setBackground(lightBlue);
+        menuItem.setBackground(white);
         topMenu.add(menuItem);
+        topMenu.setLayout(glMenu);
 
         menuItem = new JButton("Patients");
-        menuItem.setBackground(lightBlue);
+        menuItem.setBackground(white);
         topMenu.add(menuItem);
 
         menuItem = new JButton("Contact");
-        menuItem.setBackground(lightBlue);
+        menuItem.setBackground(white);
         topMenu.add(menuItem);
+        topMenu.setLayout(glMenu);
 
 
-
-
-        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        c.anchor = GridBagConstraints.FIRST_LINE_START;
+        // For managing UI
+        GridBagConstraints c = new GridBagConstraints();
+        c.anchor = GridBagConstraints.NORTH;
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridy = 0;
         c.gridx = 0;
         c.weightx = 1.0;
-        c.weighty = 0.3;
-
         contentPane.add(header, c);
 
         c.gridy = 1;
+        c.weightx = 0.0;
+        c.fill = GridBagConstraints.HORIZONTAL;
         contentPane.add(topMenu, c);
 
 
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.add(contentPane);
         this.setResizable(false);
         this.pack(); // Size according to elements
