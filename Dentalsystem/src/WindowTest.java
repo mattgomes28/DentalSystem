@@ -18,17 +18,13 @@ public class WindowTest extends JFrame {
                     patients, contact;
 
 
-
-
-
-
-    public WindowTest(int w, int h) {
+    public WindowTest(final int w,final int h) {
 
         // Colours we'll need to paint the UI (RGB format)
-        Color lightBlue = new Color(200, 200, 255);
-        Color bgBlue = new Color(112, 205, 255);
-        Color grey = new Color(128, 128, 128, 40);
-        Color white = new Color(255,255,255);
+        final Color lightBlue = new Color(200, 200, 255);
+        final Color bgBlue = new Color(112, 205, 255);
+        final Color grey = new Color(128, 128, 128, 40);
+        final Color white = new Color(255,255,255);
 
         // Layout manager
         GridBagLayout gbl = new GridBagLayout();
