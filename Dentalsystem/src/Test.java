@@ -5,7 +5,8 @@ import javax.swing.JFrame;
 public class Test {
 
     public static void main(String[] args){
-        JFrame mainWindow = new WindowTest(1000,500);
+
+        JFrame mainWindow = new WindowTest(1000, 700);
         mainWindow.setVisible(true);
         mainWindow.pack();
 

@@ -2,6 +2,8 @@ import com.sun.xml.internal.ws.client.sei.ResponseBuilder;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Created by Matheus on 27/10/2016.
@@ -11,6 +13,9 @@ public class WindowTest extends JFrame {
     private JPanel contentPane;
     private JPanel topMenu;
     private JPanel header;
+    private JPanel dummy;
+    private JButton home, appointments, healthCare,
+                    patients, contact;
 
 
     public WindowTest(int w, int h) {
@@ -22,7 +27,6 @@ public class WindowTest extends JFrame {
 
         // Layout manager
         GridBagLayout gbl = new GridBagLayout();
-        GridLayout glMenu = new GridLayout(1,0,0,10);
        // BoxLayout blTop = new BoxLayout();
 
         //main window space
@@ -36,49 +40,67 @@ public class WindowTest extends JFrame {
         header.setBackground(Color.white);
 
         // Top Menu
-        JPanel topMenu = new JPanel(gbl);
+        JPanel topMenu = new JPanel(new GridLayout(1, 5));
         topMenu.setPreferredSize(new Dimension(w, 60));
         topMenu.setBackground(bgBlue);
 
 
-        JButton menuItem  = new JButton("Home"); // Add action listeners later
-        menuItem.setBackground(white);
-        topMenu.add(menuItem);
-        topMenu.setLayout(glMenu);
+        home  = new JButton("Home"); // Add action listeners later
+        home.setBackground(white);
+        ButtonListener homeL = new ButtonListener(home, white, white, "Homes");
+        home.addActionListener(homeL);
+        home.addMouseListener(homeL);
+        topMenu.add(home);
 
-        menuItem = new JButton("Appointments");
-        menuItem.setBackground(white);
-        topMenu.add(menuItem);
-        topMenu.setLayout(glMenu);
+        appointments = new JButton("Appointments");
+        appointments.setBackground(white);
+        ButtonListener appointmentsL = new ButtonListener(appointments, white, white, "Appointments");
+        appointments.addActionListener(appointmentsL); // Action performed for click
+        appointments.addMouseListener(appointmentsL);  // Mouse listener for hovering, exiting
+        topMenu.add(appointments);
 
-        menuItem = new JButton("Health Care Plan");
-        menuItem.setBackground(white);
-        topMenu.add(menuItem);
-        topMenu.setLayout(glMenu);
+        healthCare = new JButton("Health Care Plan");
+        healthCare.setBackground(white);
+        ButtonListener healthCareL = new ButtonListener(healthCare, white, white, "Health");
+        healthCare.addActionListener(healthCareL);
+        healthCare.addMouseListener(healthCareL);
+        topMenu.add(healthCare);
 
-        menuItem = new JButton("Patients");
-        menuItem.setBackground(white);
-        topMenu.add(menuItem);
+        patients = new JButton("Patients");
+        patients.setBackground(white);
+        ButtonListener patientsL = new ButtonListener(patients, white, white, "Patients");
+        patients.addActionListener(patientsL);
+        patients.addMouseListener(patientsL);
+        topMenu.add(patients);
 
-        menuItem = new JButton("Contact");
-        menuItem.setBackground(white);
-        topMenu.add(menuItem);
-        topMenu.setLayout(glMenu);
+        contact = new JButton("Contact");
+        contact.setBackground(white);
+        ButtonListener contactL = new ButtonListener(contact, white, white, "Contact");
+        contact.addActionListener(contactL);
+        contact.addMouseListener(contactL);
+        topMenu.add(contact);
 
 
         // For managing UI
         GridBagConstraints c = new GridBagConstraints();
-        c.anchor = GridBagConstraints.NORTH;
-        c.fill = GridBagConstraints.HORIZONTAL;
+        c.anchor = GridBagConstraints.FIRST_LINE_START;
         c.gridy = 0;
         c.gridx = 0;
-        c.weightx = 1.0;
+        c.weighty = 0;
+        c.weightx = 1;
         contentPane.add(header, c);
 
+
         c.gridy = 1;
-        c.weightx = 0.0;
-        c.fill = GridBagConstraints.HORIZONTAL;
         contentPane.add(topMenu, c);
+
+        dummy = new JPanel();
+        dummy.setBackground(new Color(0,0,0,0));
+        c.gridy = 2;
+        c.weighty = 1;
+        contentPane.add(dummy, c);
+
+
 
 
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
