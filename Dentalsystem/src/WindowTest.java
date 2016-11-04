@@ -18,19 +18,33 @@ public class WindowTest extends JFrame {
                     patients, contact;
 
 
+
+
+
+
     public WindowTest(int w, int h) {
 
         // Colours we'll need to paint the UI (RGB format)
         Color lightBlue = new Color(200, 200, 255);
-        Color bgBlue = new Color(175, 175, 255);
-        Color white = new Color(255,255,255, 20);
+        Color bgBlue = new Color(112, 205, 255);
+        Color grey = new Color(128, 128, 128, 40);
+        Color white = new Color(255,255,255);
 
         // Layout manager
         GridBagLayout gbl = new GridBagLayout();
-       // BoxLayout blTop = new BoxLayout();
+        // BoxLayout blTop = new BoxLayout();
 
         //main window space
-        JPanel contentPane = new JPanel(gbl);
+        JPanel contentPane = new JPanel(gbl) {
+            public void paint(Graphics g) {
+                super.paint(g);
+                Graphics2D gb = (Graphics2D) g;
+                gb.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+                GradientPaint gp = new GradientPaint(0, 0, bgBlue, 0, h, white);
+                gb.setPaint(gp);
+                gb.fillRect(0, 0, w, h);
+            }
+        };
         contentPane.setPreferredSize(new Dimension(w, h));
         contentPane.setBackground(lightBlue);
 
@@ -46,39 +60,32 @@ public class WindowTest extends JFrame {
 
 
         home  = new JButton("Home"); // Add action listeners later
-        home.setBackground(white);
-        ButtonListener homeL = new ButtonListener(home, white, white, "Homes");
+        home.setBackground(grey);
+        ButtonListener homeL = new ButtonListener(home, grey, grey, "Homes");
         home.addActionListener(homeL);
         home.addMouseListener(homeL);
         topMenu.add(home);
 
         appointments = new JButton("Appointments");
         appointments.setBackground(white);
-        ButtonListener appointmentsL = new ButtonListener(appointments, white, white, "Appointments");
+        ButtonListener appointmentsL = new ButtonListener(appointments, grey, grey, "Appointments");
         appointments.addActionListener(appointmentsL); // Action performed for click
         appointments.addMouseListener(appointmentsL);  // Mouse listener for hovering, exiting
         topMenu.add(appointments);
 
         healthCare = new JButton("Health Care Plan");
         healthCare.setBackground(white);
-        ButtonListener healthCareL = new ButtonListener(healthCare, white, white, "Health");
+        ButtonListener healthCareL = new ButtonListener(healthCare, grey, grey, "Health");
         healthCare.addActionListener(healthCareL);
         healthCare.addMouseListener(healthCareL);
         topMenu.add(healthCare);
 
         patients = new JButton("Patients");
         patients.setBackground(white);
-        ButtonListener patientsL = new ButtonListener(patients, white, white, "Patients");
+        ButtonListener patientsL = new ButtonListener(patients, grey,grey, "Patients");
         patients.addActionListener(patientsL);
         patients.addMouseListener(patientsL);
         topMenu.add(patients);
-
-        contact = new JButton("Contact");
-        contact.setBackground(white);
-        ButtonListener contactL = new ButtonListener(contact, white, white, "Contact");
-        contact.addActionListener(contactL);
-        contact.addMouseListener(contactL);
-        topMenu.add(contact);
 
 
         // For managing UI
@@ -95,6 +102,7 @@ public class WindowTest extends JFrame {
         contentPane.add(topMenu, c);
 
         dummy = new JPanel();
+
         dummy.setBackground(new Color(0,0,0,0));
         c.gridy = 2;
         c.weighty = 1;
