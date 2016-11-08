@@ -1,9 +1,7 @@
-import com.sun.xml.internal.ws.client.sei.ResponseBuilder;
-
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.io.File;
 
 /**
  * Created by Matheus on 27/10/2016.
@@ -19,100 +17,116 @@ public class WindowTest extends JFrame {
 
 
     public WindowTest(final int w,final int h) {
+        super();
 
         // Colours we'll need to paint the UI (RGB format)
         final Color lightBlue = new Color(200, 200, 255);
         final Color bgBlue = new Color(112, 205, 255);
         final Color grey = new Color(128, 128, 128, 40);
         final Color white = new Color(255,255,255);
+        final Color transWhite = new Color(255,255,255, 100);
 
-        // Layout manager
-        GridBagLayout gbl = new GridBagLayout();
-        // BoxLayout blTop = new BoxLayout();
+        // Gradient drawing in this area
+        FlowLayout layout = new FlowLayout(FlowLayout.LEADING, 0, 0);
+        JPanel contentPane = new JPanel(layout) {
+            public void paintComponent(Graphics g) {
 
-        //main window space
-        JPanel contentPane = new JPanel(gbl) {
-            public void paint(Graphics g) {
-                super.paint(g);
+                super.paintComponent(g);
                 Graphics2D gb = (Graphics2D) g;
                 gb.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-                GradientPaint gp = new GradientPaint(0, 0, bgBlue, 0, h, white);
+                GradientPaint gp = new GradientPaint(0, 100, bgBlue, 0, h, white);
                 gb.setPaint(gp);
                 gb.fillRect(0, 0, w, h);
+
             }
         };
         contentPane.setPreferredSize(new Dimension(w, h));
-        contentPane.setBackground(lightBlue);
-
-        //header
-        JPanel header = new JPanel(gbl);
-        header.setPreferredSize(new Dimension(w,140));
-        header.setBackground(Color.white);
-
-        // Top Menu
-        JPanel topMenu = new JPanel(new GridLayout(1, 5));
-        topMenu.setPreferredSize(new Dimension(w, 60));
-        topMenu.setBackground(bgBlue);
 
 
-        home  = new JButton("Home"); // Add action listeners later
-        home.setBackground(grey);
-        ButtonListener homeL = new ButtonListener(home, grey, grey, "Homes");
-        home.addActionListener(homeL);
-        home.addMouseListener(homeL);
+
+
+        try{
+            File imgFile = new File(getClass().getResource("header.jpg").toURI());
+            Image headerImg = ImageIO.read(imgFile);
+            header = new ImagePanel(headerImg);
+
+            contentPane.add(header);
+        }
+        catch (Exception e){
+            System.out.println("Failed to load image");
+        }
+
+
+
+
+        // Top menu stuff here
+        topMenu = new JPanel(new GridLayout(1,5));
+        topMenu.setBackground(new Color(0,0,0));
+        System.out.println(topMenu.getSize());
+
+        // Creating menu items
+        home = new MenuButton(300, 75, "Home", transWhite);
+        appointments = new MenuButton(300, 75, "Appointments", transWhite);
+        patients = new MenuButton(300, 75, "Patients", transWhite);
+        healthCare = new MenuButton(300, 75, "Health Care", transWhite);
+        contact = new MenuButton(300, 75, "Contact", transWhite);
+
         topMenu.add(home);
-
-        appointments = new JButton("Appointments");
-        appointments.setBackground(white);
-        ButtonListener appointmentsL = new ButtonListener(appointments, grey, grey, "Appointments");
-        appointments.addActionListener(appointmentsL); // Action performed for click
-        appointments.addMouseListener(appointmentsL);  // Mouse listener for hovering, exiting
         topMenu.add(appointments);
-
-        healthCare = new JButton("Health Care Plan");
-        healthCare.setBackground(white);
-        ButtonListener healthCareL = new ButtonListener(healthCare, grey, grey, "Health");
-        healthCare.addActionListener(healthCareL);
-        healthCare.addMouseListener(healthCareL);
-        topMenu.add(healthCare);
-
-        patients = new JButton("Patients");
-        patients.setBackground(white);
-        ButtonListener patientsL = new ButtonListener(patients, grey,grey, "Patients");
-        patients.addActionListener(patientsL);
-        patients.addMouseListener(patientsL);
         topMenu.add(patients);
+        topMenu.add(healthCare);
+        topMenu.add(contact);
+        topMenu.revalidate();
+
+        topMenu.setPreferredSize(new Dimension(w, 60));
+        contentPane.add(topMenu);
 
 
-        // For managing UI
-        GridBagConstraints c = new GridBagConstraints();
-        c.anchor = GridBagConstraints.FIRST_LINE_START;
-        c.gridy = 0;
-        c.gridx = 0;
-        c.weighty = 0;
-        c.weightx = 1;
-        contentPane.add(header, c);
+        // Dummy here for the rest of the screen
+        JPanel mainContent = new JPanel(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        mainContent.setBackground(new Color(0,0,0,0));
 
 
-        c.gridy = 1;
-        contentPane.add(topMenu, c);
+        // The Two Columns of Main Page
+        JPanel left = new JPanel(),
+               right = new JPanel();
 
-        dummy = new JPanel();
-
-        dummy.setBackground(new Color(0,0,0,0));
-        c.gridy = 2;
-        c.weighty = 1;
-        contentPane.add(dummy, c);
-
+        int insetSize = 20;
+        Color borderC = new Color(76, 178, 252),
+              contentC = new Color(230,244,254);
+        Dimension colDim = new Dimension(w/2-2*insetSize, 500);
 
 
+        left.setPreferredSize(colDim);
+        left.setBackground(contentC);
+        left.setBorder(BorderFactory.createLineBorder(borderC, 2));
 
-        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        right.setPreferredSize(colDim);
+        right.setBackground(contentC);
+        right.setBorder(BorderFactory.createLineBorder(borderC, 2));
+
+        // Adding both columns to the panel
+        gbc.anchor = GridBagConstraints.FIRST_LINE_START;
+        gbc.gridy = 0;
+        gbc.gridx = 0;
+        gbc.weighty = 1;
+        gbc.insets = new Insets(insetSize,insetSize,insetSize,insetSize);
+        mainContent.add(left, gbc);
+
+        gbc.gridx = 1;
+        mainContent.add(right, gbc);
+
+
+        contentPane.add(mainContent);
+
+
+        // Main window settings
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.add(contentPane);
+        this.pack();
+        this.revalidate();
         this.setResizable(false);
-        this.pack(); // Size according to elements
-        this.repaint(); // Update entire screen
-
-
+        this.setVisible(true);
     }
 }

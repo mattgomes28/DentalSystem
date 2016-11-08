@@ -26,9 +26,14 @@ public class MenuButton extends JButton {
         setPreferredSize(size);
 
         // Remove graphics and add our own
-        setFocusPainted(false);
-        setContentAreaFilled(false);
         setBackground(color);
+
+    }
+
+    public void setDirection(String page){
+
+        // Put the page stuff here
+        System.out.println(page);
 
     }
 }
