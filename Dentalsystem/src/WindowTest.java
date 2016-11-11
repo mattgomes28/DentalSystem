@@ -20,31 +20,21 @@ public class WindowTest extends JFrame {
         super();
 
         // Colours we'll need to paint the UI (RGB format)
-        final Color lightBlue = new Color(200, 200, 255);
         final Color bgBlue = new Color(112, 205, 255);
-        final Color grey = new Color(128, 128, 128, 40);
         final Color white = new Color(255,255,255);
         final Color transWhite = new Color(255,255,255, 100);
+        final Color borderC = new Color(76, 178, 252);
+        final Color contentC = new Color(230, 244, 254);
+        final Color menuC = new Color(90, 210, 240);
+
 
         // Gradient drawing in this area
         FlowLayout layout = new FlowLayout(FlowLayout.LEADING, 0, 0);
-        JPanel contentPane = new JPanel(layout) {
-            public void paintComponent(Graphics g) {
-
-                super.paintComponent(g);
-                Graphics2D gb = (Graphics2D) g;
-                gb.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-                GradientPaint gp = new GradientPaint(0, 100, bgBlue, 0, h, white);
-                gb.setPaint(gp);
-                gb.fillRect(0, 0, w, h);
-
-            }
-        };
+        contentPane = new GradientPanel(layout, w, h, 0, 100, bgBlue, 0, h, white);
         contentPane.setPreferredSize(new Dimension(w, h));
 
 
-
-
+        // Loading the header image
         try{
             File imgFile = new File(getClass().getResource("header.jpg").toURI());
             Image headerImg = ImageIO.read(imgFile);
@@ -58,10 +48,9 @@ public class WindowTest extends JFrame {
 
 
 
-
         // Top menu stuff here
         topMenu = new JPanel(new GridLayout(1,5));
-        topMenu.setBackground(new Color(0,0,0));
+        topMenu.setBackground(menuC);
         System.out.println(topMenu.getSize());
 
         // Creating menu items
@@ -93,8 +82,6 @@ public class WindowTest extends JFrame {
                right = new JPanel();
 
         int insetSize = 20;
-        Color borderC = new Color(76, 178, 252),
-              contentC = new Color(230,244,254);
         Dimension colDim = new Dimension(w/2-2*insetSize, 500);
 
 
@@ -110,18 +97,29 @@ public class WindowTest extends JFrame {
         gbc.anchor = GridBagConstraints.FIRST_LINE_START;
         gbc.gridy = 0;
         gbc.gridx = 0;
-        gbc.weighty = 1;
-        gbc.insets = new Insets(insetSize,insetSize,insetSize,insetSize);
+        gbc.insets = new Insets(insetSize,insetSize,insetSize + 20,insetSize);
         mainContent.add(left, gbc);
 
         gbc.gridx = 1;
         mainContent.add(right, gbc);
 
 
+        // The Footer Section Goes here
+        JPanel footer = new JPanel();
+        footer.setBackground(white);
+        footer.setBorder(BorderFactory.createMatteBorder(2, 0, 0, 0, borderC));
+        footer.setPreferredSize(new Dimension(w, 100));
+
+
+
+
+
         contentPane.add(mainContent);
+        contentPane.add(footer, BorderLayout.SOUTH);
 
 
         // Main window settings
+        this.setName("Dental System - The Prototype");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.add(contentPane);
         this.pack();

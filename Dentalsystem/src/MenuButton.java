@@ -27,6 +27,7 @@ public class MenuButton extends JButton {
 
         // Remove graphics and add our own
         setBackground(color);
+        setContentAreaFilled(false);
 
     }
 

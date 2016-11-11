@@ -1,3 +1,5 @@
+import oracle.jrockit.jfr.JFR;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -11,64 +13,49 @@ public class LoginScreen extends JFrame {
     private JPasswordField password;
     private JButton login, forgot;
     private JLabel  usernameLabel, passwordLabel;
+    private int width, height;
+
+    public LoginScreen(int w, int h){
+
+        // Instance variables
+        this.width = w;
+        this.height = h;
+
+        final Color bgBlue = new Color(112, 205, 255);
+        final Color white  = new Color(255, 255, 255);
+
+        // The actual container
+        //GridBagLayout layout = new GridBagLayout();
+        FlowLayout layout = new FlowLayout();
+        contentPane = new GradientPanel(layout, width, height, 0, 50, bgBlue, 0, height, white);
+        contentPane.setPreferredSize(new Dimension(width, height));
 
 
-    public LoginScreen(int width, int height){
-
-        // Sorting out the content pane stuff
-        contentPane = new JPanel(new GridBagLayout());
-        GridBagConstraints c = new GridBagConstraints();
-        contentPane.setPreferredSize(new Dimension(300, 300));
-
-        // Instantiating the fields
-        username = new JTextArea();
-        password = new JPasswordField();
-        login = new JButton("Login");
-        forgot = new JButton("Forgot My Password");
+        // Create buttons and labels for input
         usernameLabel = new JLabel("Username: ");
+        username = new JTextArea();
+        username.setColumns(20);
+
         passwordLabel = new JLabel("Password: ");
+        password = new JPasswordField();
+        password.setColumns(20);
 
-        username.setColumns(10);
-        password.setColumns(10);
-        password.setBorder(null);
-
-
-        // Adding the stuff with constraints
-        c.gridx = 1;
-        c.gridy = 1;
-        contentPane.add(usernameLabel, c);
-
-        c.gridx = 2;
-        c.gridy = 1;
-        contentPane.add(username, c);
-
-        c.gridx = 1;
-        c.gridy = 2;
-        contentPane.add(passwordLabel, c);
-
-        c.gridx = 2;
-        c.gridy = 2;
-        contentPane.add(password, c);
-
-        c.gridx = 1;
-        c.gridy = 3;
-        contentPane.add(login, c);
-
-        c.gridx = 2;
-        c.gridy = 3;
-        contentPane.add(forgot, c);
+        login = new MenuButton(30, 50, "Login", white);
+        forgot = new MenuButton(30, 50, "Forgot Password", white);
 
 
+        // GridBagConstraints for laying out components
+        GridBagConstraints c = new GridBagConstraints();
+        c.insets = new Insets(20,20,20,20);
 
 
+        contentPane.add(username);
 
-        // Final touches to the frame
+
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setResizable(false);
         this.add(contentPane);
         this.pack();
-        this.repaint();
-
+        this.setVisible(true);
 
     }
 }
