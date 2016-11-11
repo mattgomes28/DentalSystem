@@ -11,7 +11,7 @@ public class Test {
     public static void main(String[] args){
 
         // Testing out header
-        LoginScreen window = new LoginScreen(200, 200);
+        LoginScreen window = new LoginScreen(500, 400);
 
 
     }

@@ -13,7 +13,7 @@ public class ImagePanel extends JPanel {
     public ImagePanel(Image img){
 
 
-        super();
+        super(); // Need to init. instance variables
 
         // Create a new imageIcon and draw it onto panel
         // with JLabel

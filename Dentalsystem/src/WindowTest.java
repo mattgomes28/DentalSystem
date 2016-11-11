@@ -1,4 +1,5 @@
 import javax.imageio.ImageIO;
+import javax.jws.soap.SOAPBinding;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
@@ -11,7 +12,6 @@ public class WindowTest extends JFrame {
     private JPanel contentPane;
     private JPanel topMenu;
     private JPanel header;
-    private JPanel dummy;
     private JButton home, appointments, healthCare,
                     patients, contact;
 
@@ -35,16 +35,7 @@ public class WindowTest extends JFrame {
 
 
         // Loading the header image
-        try{
-            File imgFile = new File(getClass().getResource("header.jpg").toURI());
-            Image headerImg = ImageIO.read(imgFile);
-            header = new ImagePanel(headerImg);
-
-            contentPane.add(header);
-        }
-        catch (Exception e){
-            System.out.println("Failed to load image");
-        }
+        header = new ImagePanel(UsefulFunctions.getImage("header.jpg"));
 
 
 
