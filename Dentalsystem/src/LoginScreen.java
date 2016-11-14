@@ -66,6 +66,7 @@ public class LoginScreen extends JFrame {
         c.weightx = 1;
         contentPane.add(new TransPanel(), c);
 
+
         // Now add the labels and text fields to container
         c.gridx = 0;
         c.gridy = 1;
@@ -74,6 +75,7 @@ public class LoginScreen extends JFrame {
 
         c.gridx = 1;
         c.weightx = 1;
+        c.fill = GridBagConstraints.HORIZONTAL;
         contentPane.add(username, c);
 
         c.gridx = 0;

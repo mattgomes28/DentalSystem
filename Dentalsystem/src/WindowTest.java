@@ -1,8 +1,5 @@
-import javax.imageio.ImageIO;
-import javax.jws.soap.SOAPBinding;
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
 
 /**
  * Created by Matheus on 27/10/2016.
@@ -36,8 +33,7 @@ public class WindowTest extends JFrame {
 
         // Loading the header image
         header = new ImagePanel(UsefulFunctions.getImage("header.jpg"));
-
-
+        contentPane.add(header);
 
         // Top menu stuff here
         topMenu = new JPanel(new GridLayout(1,5));
