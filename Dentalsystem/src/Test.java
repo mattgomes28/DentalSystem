@@ -1,4 +1,4 @@
-import javax.jws.soap.SOAPBinding;
+
 import java.sql.ResultSet;
 
 public class Test {
