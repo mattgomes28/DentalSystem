@@ -1,5 +1,9 @@
 
+import DataClasses.Appointment;
+import DataClasses.DBConnection;
+
 import java.sql.ResultSet;
+import java.util.ArrayList;
 
 public class Test {
 
@@ -21,6 +25,10 @@ public class Test {
         // View values in the user table
         ResultSet r = conn.runQuery(String.format("SELECT * FROM User WHERE username='%s'", username));
         System.out.println(UsefulFunctions.validateUser(r, username, password));
+
+
+        ArrayList<Appointment> apps = conn.getAppoitnemnts();
+        System.out.println(apps.size());
 
 
         conn.closeConnection();

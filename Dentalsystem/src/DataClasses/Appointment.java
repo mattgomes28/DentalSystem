@@ -1,3 +1,5 @@
+package DataClasses;
+
 import java.sql.Date;
 import java.sql.Timestamp;
 
@@ -7,26 +9,29 @@ import java.sql.Timestamp;
 public class Appointment {
 
     // Instance variables according to info model
-    private Date startTime;
-    private Date endTime;
+    private String startTime;
+    private String endTime;
     private Practitioner practitioner;
     private Treatment treatment;
+    private String patient;
 
 
-    public Appointment(Date startTime, Date endTime, Practitioner practitioner, Treatment treatment){
+    public Appointment(String startTime, String endTime, Practitioner practitioner, String patient, Treatment treatment){
 
         // Set the instance variables
         this.startTime = startTime;
         this.endTime = endTime;
         this.practitioner = practitioner;
         this.treatment = treatment;
+        this.patient = patient;
     }
 
 
     // Get functions here
-    public Date getStartTime() {return startTime;}
-    public Date endTime() {return endTime;}
+    public String getStartTime() {return startTime;}
+    public String endTime() {return endTime;}
     public Practitioner getPractitioner() {return practitioner;}
     public Treatment getTreatment() {return treatment;}
+    public String getPatient() {return patient;}
 
 }

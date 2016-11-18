@@ -1,3 +1,7 @@
+package DataClasses;
+
+import DataClasses.Practitioner;
+
 /**
  * Created by Matheus on 16/11/2016.
  */
@@ -10,7 +14,8 @@ public class Treatment {
 
 
 
-    public Treatment(String name, double price, Practitioner p){
+    public Treatment(String name, double price,
+                     Practitioner p){
 
         // Set instance vars
         this.name = name;
