@@ -18,7 +18,91 @@ SET time_zone = "+00:00";
 
 --
 -- Database: `dentalsystem`
+-- 
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table 'treatment_healthcare_plan'
+-- 
+
+CREATE TABLE 'treatment_healthcare_plan' (
+  'planName' varchar(50) NOT NULL,
+  'treatName' varchar(50) NOT NULL,
+  'amount' int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1
+
 --
+-- Dumping data for table 'treatments'
+-- 
+
+INSERT INTO 'treatment_healthcare_plan' ('planName', 'treatName', 'amount') VALUES
+('Free NHS Plan', 'Check-up', 2);
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table 'patient_healthcare_plan'
+-- 
+
+CREATE TABLE 'patient_healthcare_plan' ( 
+  'patientID' int NOT NULL, 
+  'planName' varchar(50) NOT NULL,
+) ENGINE=InnoDB DEFAULT CHARSET=latin1
+
+--
+-- Dumping data for table 'treatments'
+-- 
+
+INSERT INTO 'patient_healthcare_plan' ('patientID', 'planName') VALUES
+(1, 'Maintenance Plan');
+
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table 'treatments'
+-- 
+
+CREATE TABLE 'treatments' (
+  'treatName' varchar(50) NOT NULL,
+  'treatPrice' double NOT NULL, 
+  'duration' time NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1
+
+--
+-- Dumping data for table 'treatments'
+-- 
+
+INSERT INTO 'treatments' ('treatName', 'treatPrice', 'duration') VALUES
+('Check-up', 45.00, 00:20:00),
+('Hygiene', 45.00, 00:20:00),
+('Fitting a gold Crown', 500.00, 01:00:00),
+('Silver amalgam filling', 90.00, 01:00:00),
+('White composite resin filling', 150.00, 01:00:00);
+
+-- -------------------------------------------------------
+
+-- 
+-- Table structure for table 'healthcare plan'
+-- 
+
+CREATE TABLE 'healthcarePlan' (
+  'planName' varchar(50) NOT NULL,
+  'monthlyPayment' double NOT NULL
+) ENGINE=innoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table 'healthcare plan'
+-- 
+
+INSERT INTO 'healthcarePlan' ('planName', 'monthlyPayment') VALUES 
+('NHS free Plan',  0.00),
+('Maintenance Plan', 15.00),
+('Oral Heath Plan',  21.00),
+('Dental Repair Plan', 36.00);
+
+
 
 -- --------------------------------------------------------
 

@@ -1,13 +1,12 @@
 import UI.*;
-
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 
 /**
- * Created by Matheus on 20/11/2016.
+ * Created by Annie on 20/11/2016.
  */
-public class SecretaryView extends JFrame {
+
+public class AboutUs extends JFrame {
 
     private JPanel contentPane;
     private JPanel topMenu;
@@ -16,13 +15,13 @@ public class SecretaryView extends JFrame {
             patients, contact;
 
 
-    public SecretaryView(final int w,final int h) {
+    public AboutUs(final int w, final int h) {
         super();
 
         // Colours we'll need to paint the UI (RGB format)
         final Color bgBlue = new Color(112, 205, 255);
-        final Color white = new Color(255,255,255);
-        final Color transWhite = new Color(255,255,255, 100);
+        final Color white = new Color(255, 255, 255);
+        final Color transWhite = new Color(255, 255, 255, 100);
         final Color borderC = new Color(76, 178, 252);
         final Color contentC = new Color(230, 244, 254);
         final Color menuC = new Color(90, 210, 240);
@@ -39,7 +38,7 @@ public class SecretaryView extends JFrame {
         contentPane.add(header);
 
         // Top menu stuff here
-        topMenu = new JPanel(new GridLayout(1,5));
+        topMenu = new JPanel(new GridLayout(1, 5));
         topMenu.setBackground(menuC);
         System.out.println(topMenu.getSize());
 
@@ -51,7 +50,6 @@ public class SecretaryView extends JFrame {
         contact = new MenuButton(300, 75, "Contact", transWhite);
 
         // Add all the top menu listeners
-
 
 
         // Add all menu buttons to top panel
@@ -68,11 +66,11 @@ public class SecretaryView extends JFrame {
 
         // Create the main content pane
         JPanel mainContent = new JPanel(new GridBagLayout());
-        JPanel homeText = new JPanel();
+        JPanel aboutText = new JPanel();
         int insetSize = 20;
         Insets contentMargin = new Insets(insetSize, insetSize, insetSize, insetSize);
 
-        // Constraints and adding the main home thing
+        // Constraints and adding the about us info
         GridBagConstraints gbc = new GridBagConstraints();
 
         gbc.anchor = GridBagConstraints.FIRST_LINE_START;
@@ -80,27 +78,22 @@ public class SecretaryView extends JFrame {
         gbc.gridy = 0;
         gbc.insets = contentMargin;
 
-        Dimension mainTextDim = new Dimension(w-2*insetSize, 500);
-        homeText.setPreferredSize(mainTextDim);
-        homeText.setBackground(contentC);
-        homeText.setBorder(BorderFactory.createLineBorder(borderC, 2));
+        Dimension mainTextDim = new Dimension(w - 2 * insetSize, 500);
+        aboutText.setPreferredSize(mainTextDim);
+        aboutText.setBackground(contentC);
+        aboutText.setBorder(BorderFactory.createLineBorder(borderC, 2));
 
         mainContent.setBackground(transWhite);
-        mainContent.add(homeText, gbc);
+        mainContent.add(aboutText, gbc);
 
 
-
-
-        // Adding the home stuff
-        //AppointmentPage.showAppointments(mainContent, 500, 500);
-
-
-        //add home info
+        //add about us info
         //JTextField textBox = new JTextField(10);
         JTextArea textArea = new JTextArea("Testing the text", 5, 10);
         //JScrollPane scrollPane = new JScrollPane(textArea);
-        homeText.add(textArea);
+        aboutText.add(textArea);
         textArea.setEditable(false);
+
 
         // The Footer Section Goes here
         JPanel footer = new JPanel();
@@ -109,12 +102,8 @@ public class SecretaryView extends JFrame {
         footer.setPreferredSize(new Dimension(w, 100));
 
 
-
-
-
         contentPane.add(mainContent);
         contentPane.add(footer, BorderLayout.SOUTH);
-
 
         // Main window settings
         this.setTitle("Dental System - The Prototype");
@@ -126,3 +115,6 @@ public class SecretaryView extends JFrame {
         this.setVisible(true);
     }
 }
+
+
+

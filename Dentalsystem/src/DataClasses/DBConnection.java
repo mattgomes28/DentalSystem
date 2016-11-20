@@ -29,7 +29,7 @@ public class DBConnection {
 
     public DBConnection(){
         // Init with default credentials
-        this("admin", "admin", "dentalsystem");
+        this("root", "", "dentalsystem");
     }
 
 
