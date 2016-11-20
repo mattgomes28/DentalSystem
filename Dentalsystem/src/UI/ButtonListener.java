@@ -10,7 +10,7 @@ import java.awt.event.MouseEvent;
 /**
  * Created by Matheus on 04/11/2016.
  */
-public class ButtonListener extends MouseAdapter implements ActionListener{
+public abstract class ButtonListener extends MouseAdapter implements ActionListener{
 
     private Container content; // Content to add
     private JButton button;
@@ -33,21 +33,6 @@ public class ButtonListener extends MouseAdapter implements ActionListener{
     public void normalize(){
         button.getParent().revalidate();
         button.getParent().repaint();
-    }
-
-
-    /*
-    What happens when the mouse clicks a button.
-     */
-    public void actionPerformed(ActionEvent e) {
-
-        // Add the direct page thing here.
-        System.out.println("Added some content");
-
-        target.removeAll();
-        target.add(content);
-        target.revalidate();
-
     }
 
 

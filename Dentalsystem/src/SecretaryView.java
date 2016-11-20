@@ -50,6 +50,10 @@ public class SecretaryView extends JFrame {
         healthCare = new MenuButton(300, 75, "Health Care", transWhite);
         contact = new MenuButton(300, 75, "Contact", transWhite);
 
+        // Add all the top menu listeners
+
+
+
         // Add all menu buttons to top panel
         topMenu.add(home);
         topMenu.add(appointments);
