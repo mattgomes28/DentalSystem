@@ -27,6 +27,11 @@ public class DBConnection {
         this.DB_URL = "jdbc:mysql://localhost/"+dbName;
     }
 
+    public DBConnection(){
+        // Init with default credentials
+        this("admin", "admin", "dentalsystem");
+    }
+
 
     public void openConnection(){
 
@@ -141,7 +146,7 @@ public class DBConnection {
             ArrayList<Appointment> apps = new ArrayList<Appointment>();
 
             // Vars we'll need to define each obj
-            String patient; // Change to the actual type PLEASEEEEE!!!!!!
+            String patient; // Change to the actual type PLEASEEEEE!!!!!! - EDIT1
             Practitioner practitioner;
             String startTime, endTime;
 
@@ -167,6 +172,6 @@ public class DBConnection {
 
         // if all fails or list is empty
         return null;
-    }
+    } // MIGHT BE REDUNDANT SO DELETE
 
 }

@@ -1,4 +1,7 @@
+import DataClasses.CalendarModel;
+
 import javax.swing.*;
+import javax.swing.table.DefaultTableColumnModel;
 import java.awt.*;
 
 /**
@@ -47,6 +50,8 @@ public class WindowTest extends JFrame {
         healthCare = new MenuButton(300, 75, "Health Care", transWhite);
         contact = new MenuButton(300, 75, "Contact", transWhite);
 
+
+
         topMenu.add(home);
         topMenu.add(appointments);
         topMenu.add(patients);
@@ -89,6 +94,13 @@ public class WindowTest extends JFrame {
 
         gbc.gridx = 1;
         mainContent.add(right, gbc);
+
+        // Testing the appointment stuff
+        int thisWeek = 48;
+        JTable calendar = new JTable();
+        calendar.setModel(new CalendarModel(thisWeek));
+        ButtonListener appointmentsL = new ButtonListener(appointments, new JScrollPane(calendar), left);
+        appointments.addActionListener(appointmentsL);
 
 
         // The Footer Section Goes here

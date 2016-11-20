@@ -10,18 +10,17 @@ import java.awt.event.MouseEvent;
  */
 public class ButtonListener extends MouseAdapter implements ActionListener{
 
-    private Color cClicked;  //
-    private Color cHovered;  // Colour when hovered
-    private String direct; // Page to direct to
+    private Container content; // Content to add
     private JButton button;
+    private Container target;  // Container target to change
 
-    public ButtonListener(JButton b, Color colorClicked, Color colorHovered, String page){
+    public ButtonListener(JButton button, Container content, Container target){
 
         // Just set the fields
-        button = b;
-        cClicked = colorClicked;
-        cHovered = colorHovered;
-        direct = page;
+        this.button = button;
+        this.content = content;
+        this.target = target;
+
     }
 
     /*
@@ -30,7 +29,6 @@ public class ButtonListener extends MouseAdapter implements ActionListener{
      Overrides the default behaviour.
      */
     public void normalize(){
-        button.setBackground(cClicked);
         button.getParent().revalidate();
         button.getParent().repaint();
     }
@@ -42,7 +40,12 @@ public class ButtonListener extends MouseAdapter implements ActionListener{
     public void actionPerformed(ActionEvent e) {
 
         // Add the direct page thing here.
-        System.out.println(direct);
+        System.out.println("Added some content");
+
+        target.removeAll();
+        target.add(content);
+        target.revalidate();
+
     }
 
 
