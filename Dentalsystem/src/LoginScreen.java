@@ -1,3 +1,8 @@
+import UI.GradientPanel;
+import UI.ImagePanel;
+import UI.MenuButton;
+import UI.TransPanel;
+
 import javax.swing.*;
 import java.awt.*;
 

@@ -1,20 +1,9 @@
-
-import DataClasses.Appointment;
-import DataClasses.DBConnection;
-
-import javax.swing.*;
-import javax.xml.transform.Result;
-import java.awt.*;
-import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.Calendar;
-
 public class Test {
 
     public static void main(String[] args){
 
         // Testing out header
-        WindowTest window = new WindowTest(960, 900);
+        SecretaryView window = new SecretaryView(960, 900);
 
 
 //        // Test DB

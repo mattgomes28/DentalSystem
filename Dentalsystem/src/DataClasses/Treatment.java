@@ -1,7 +1,5 @@
 package DataClasses;
 
-import DataClasses.Practitioner;
-
 /**
  * Created by Matheus on 16/11/2016.
  */

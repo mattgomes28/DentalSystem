@@ -125,53 +125,6 @@ public class DBConnection {
     }
 
 
-    /**
-     * This function goes through all the rows
-     * in the appointment table and returns
-     * the ordered result (by date);
-     *
-     * @return ArrayList containing all the appointments
-     * or null if no appointments or sql error.
-     */
-    public ArrayList<Appointment> getAppoitnemnts(){
 
-        try{
-            // If the connection is closed return null
-            if (connection.isClosed()) return null;
-
-            // Run the query to get all the appointments in the DB
-            ResultSet rSet = runQuery("SELECT * FROM Appointment ORDER BY startTime");
-
-            // List of appointments
-            ArrayList<Appointment> apps = new ArrayList<Appointment>();
-
-            // Vars we'll need to define each obj
-            String patient; // Change to the actual type PLEASEEEEE!!!!!! - EDIT1
-            Practitioner practitioner;
-            String startTime, endTime;
-
-            // Run through all rows in table
-            while (rSet.next()){
-                patient = rSet.getString(1);
-                practitioner = getPractitioner(rSet.getInt(2));
-                startTime = rSet.getString(3);
-                endTime = rSet.getString(4);
-
-                apps.add(new Appointment(startTime, endTime, practitioner, patient, null));
-            }
-
-
-            // Only return if not empty
-            if (!apps.isEmpty()) return apps;
-
-        }
-        catch (SQLException e){
-            System.out.println("Not connected");
-            e.printStackTrace();
-        }
-
-        // if all fails or list is empty
-        return null;
-    } // MIGHT BE REDUNDANT SO DELETE
 
 }

@@ -1,22 +1,22 @@
-import DataClasses.CalendarModel;
 import UI.*;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 
 /**
- * Created by Matheus on 27/10/2016.
+ * Created by Matheus on 20/11/2016.
  */
-public class WindowTest extends JFrame {
+public class SecretaryView extends JFrame {
 
     private JPanel contentPane;
     private JPanel topMenu;
     private JPanel header;
     private JButton home, appointments, healthCare,
-                    patients, contact;
+            patients, contact;
 
 
-    public WindowTest(final int w,final int h) {
+    public SecretaryView(final int w,final int h) {
         super();
 
         // Colours we'll need to paint the UI (RGB format)
@@ -50,8 +50,7 @@ public class WindowTest extends JFrame {
         healthCare = new MenuButton(300, 75, "Health Care", transWhite);
         contact = new MenuButton(300, 75, "Contact", transWhite);
 
-
-
+        // Add all menu buttons to top panel
         topMenu.add(home);
         topMenu.add(appointments);
         topMenu.add(patients);
@@ -63,62 +62,33 @@ public class WindowTest extends JFrame {
         contentPane.add(topMenu);
 
 
-        // Dummy here for the rest of the screen
+        // Create the main content pane
         JPanel mainContent = new JPanel(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-        mainContent.setBackground(new Color(0,0,0,0));
-
-
-        // Creating the side menu for the secretary
-//        UI.MenuButton hygienist = new UI.MenuButton((int) 0.33*w - 10, 50, "Hygienist", new Color(0,0,0));
-//        UI.MenuButton dentist   = new UI.MenuButton((int) 0.33*w - 10, 50, "Dentist", new Color(0,0,0));
-
-        // Create JButtons for side panel
-        JButton dentist = new JButton("Dentist");
-        JButton hygienist = new JButton("Hygienist");
-
-        // List of buttons on side and other configs
-        JButton[] sideButtons = {hygienist, dentist};
-
-        // Create both panels in main content
-        JPanel left  = new SideMenu((int) 0.33*w, (int) 0.33*h, sideButtons);
-        JPanel right = new JPanel();
-
-        // Add listeners to load calendar on main column (right col)
-        int thisWeek = 47; // This week's view
-        JTable calendarD = new JTable();
-        calendarD.setModel(new CalendarModel(thisWeek, 2));
-        ButtonListener dentistL = new ButtonListener(dentist, new JScrollPane(calendarD), right);
-        dentist.addActionListener(dentistL);
-
-        JTable calendarH = new JTable();
-        calendarH.setModel(new CalendarModel(thisWeek, 1));
-        ButtonListener hygienistL = new ButtonListener(hygienist, new JScrollPane(calendarH), right);
-        hygienist.addActionListener(hygienistL);
-
-
-        // Inset for both columns
+        JPanel homeText = new JPanel();
         int insetSize = 20;
+        Insets contentMargin = new Insets(insetSize, insetSize, insetSize, insetSize);
 
+        // Constraints and adding the main home thing
+        GridBagConstraints gbc = new GridBagConstraints();
 
-        // Adding main bits to the panel
         gbc.anchor = GridBagConstraints.FIRST_LINE_START;
-        gbc.insets = new Insets(insetSize,insetSize,insetSize + 20,insetSize);
         gbc.gridx = 0;
         gbc.gridy = 0;
-        left.setBorder(BorderFactory.createLineBorder(borderC, 2));
-        left.setBackground(contentC);
-        left.setPreferredSize(new Dimension((int) (w*0.33 - 2*insetSize), 500));
-        mainContent.add(left, gbc);
+        gbc.insets = contentMargin;
 
-        right.setPreferredSize(new Dimension((int) (w*0.66 - 2*insetSize), 500));
-        right.setBackground(contentC);
-        right.setBorder(BorderFactory.createLineBorder(borderC, 2));
+        Dimension mainTextDim = new Dimension(w-2*insetSize, 500);
+        homeText.setPreferredSize(mainTextDim);
+        homeText.setBackground(contentC);
+        homeText.setBorder(BorderFactory.createLineBorder(borderC, 2));
 
-        // Adding both columns to the panel
-        gbc.gridy = 0;
-        gbc.gridx = 1;
-        mainContent.add(right, gbc);
+        mainContent.setBackground(transWhite);
+        mainContent.add(homeText, gbc);
+
+
+
+
+        // Adding the home stuff
+        //AppointmentPage.showAppointments(mainContent, 500, 500);
 
 
         // The Footer Section Goes here

@@ -11,16 +11,19 @@ public class CalendarModel extends AbstractTableModel {
     private int week;
 
 
-    public CalendarModel(int week){
+    public CalendarModel(int week, int role){
 
         // Use super constructor
         super();
 
-        this.appointments = Appointment.getWeekAppointments(week);
+        if (role == 1) this.appointments = Appointment.getWeekHAppointments(week);
+        else if (role == 2) this.appointments = Appointment.getWeekDAppointments(week);
+        else {
+            System.out.println("invalid role. Showing dentist ");
+            this.appointments = Appointment.getWeekDAppointments(week);
+        }
         this.week = week;
 
-
-        // Just set the variables
 
     }
 
@@ -38,16 +41,17 @@ public class CalendarModel extends AbstractTableModel {
     public int getColumnCount() {
         // This is the number of instance variables we
         // have in the appointments class
-        return 4; // Depends on the APPOINTMENTS CLASS - CHANGE IF CHANGE
+        return 5; // Depends on the APPOINTMENTS CLASS - CHANGE IF CHANGE
     }
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         switch (columnIndex){
-            case 0: return appointments.get(rowIndex).getStartTime();
-            case 1: return appointments.get(rowIndex).getEndTime();
-            case 2: return appointments.get(rowIndex).getPatient();
-            case 3: return appointments.get(rowIndex).getPractitioner().getName();
+            case 0: return appointments.get(rowIndex).getDate();
+            case 1: return appointments.get(rowIndex).getStartTime();
+            case 2: return appointments.get(rowIndex).getEndTime();
+            case 3: return appointments.get(rowIndex).getPatient();
+            case 4: return appointments.get(rowIndex).getPractitioner().getName();
         }
 
         // Else all fails
@@ -63,11 +67,14 @@ public class CalendarModel extends AbstractTableModel {
     @Override
     public String getColumnName(int columnIndex) {
         switch (columnIndex){
-            case 0: return "Start Time";
-            case 1: return "End Time";
-            case 2: return "Patient";
-            case 3: return "Practitioner";
+            case 0: return "Date";
+            case 1: return "Start Time";
+            case 2: return "End Time";
+            case 3: return "Patient";
+            case 4: return "Practitioner";
         }
+        // Shouldn't happen at all
+        // but just in case.
         return "None";
     }
 }
