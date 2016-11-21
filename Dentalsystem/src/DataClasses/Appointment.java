@@ -54,6 +54,14 @@ public class Appointment {
     public String getEndTime(){return endTime.substring(11,19);}
 
 
+    public void insertAppointment(){
+        String query = String.format("INSERT INTO Appointment VALUES ('%s', '%s', '%s', '%s');", patient, practitioner.getId(), startTime, endTime);
+        DBConnection c = new DBConnection();
+        c.openConnection();
+        c.runUpdate(query);
+        c.closeConnection();
+    }
+
     public void deleteDate(){
         String query = String.format("DELETE FROM Appointment WHERE startTime = %s AND practitionerID = %s", startTime, practitioner.getId());
         DBConnection c = new DBConnection();

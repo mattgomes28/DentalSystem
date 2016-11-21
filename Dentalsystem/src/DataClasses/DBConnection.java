@@ -88,6 +88,20 @@ public class DBConnection {
         return null;
     }
 
+    public void runUpdate(String query){
+        try{
+            // Statement to exec query
+            Statement st = connection.createStatement();
+            st.executeUpdate(query);
+        }
+        catch(SQLException s){
+            System.out.println("Failed to create statement... Check connection");
+            s.printStackTrace();
+        }
+    }
+
+
+
 
 
 
