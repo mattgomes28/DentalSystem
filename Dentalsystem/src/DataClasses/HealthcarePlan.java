@@ -33,11 +33,11 @@ public class HealthcarePlan {
     public Double getMonthlyPayment() {return monthlyPayment;}
     public Treatment[] getTreatList() {return treatList;}
 
-    public boolean insertPlans(){
+    public boolean insertPlans() {
 
         // Check the DB for duplicate plans
         String checkQuery = "SELECT * FROM Appointment WHERE (planName = ? AND treatList = ?);";
-        String[] args1 = {String.valueOf(planName) ,String.valueOf( treatList) };
+        String[] args1 = {String.valueOf(planName), String.valueOf(treatList)};
 
         DBConnection c = new DBConnection();
         c.openConnection();
@@ -53,11 +53,12 @@ public class HealthcarePlan {
             c.closeConnection();
             return true;
 
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        catch (SQLException e){e.printStackTrace();}
         return false;
 
-
+    }
 }
 
 

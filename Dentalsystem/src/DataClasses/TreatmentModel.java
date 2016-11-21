@@ -6,17 +6,15 @@ import java.util.ArrayList;
 /**
  * Created by Annie on 21/11/2016.
  */
-public class HealthcarePlanModel extends AbstractTableModel {
+public class TreatmentModel extends AbstractTableModel {
+    private ArrayList<Treatment> treatments;
 
-
-    private ArrayList<HealthcarePlan> healthcareplans;
-
-    public HealthcarePlanModel(ArrayList<HealthcarePlan> healthcareplans){
+    public TreatmentModel(ArrayList<Treatment> treatments){
 
         // Use super constructor
         super();
 
-        this.healthcareplans= healthcareplans;
+        this.treatments = treatments;
 
 
         // Just set the variables
@@ -28,22 +26,23 @@ public class HealthcarePlanModel extends AbstractTableModel {
     @Override
     public int getRowCount() {
         // Return how many entries there are in the result set
-        return healthcareplans.size();
+        return treatments.size();
     }
 
     @Override
     public int getColumnCount() {
         // This is the number of instance variables we
-        // have in the healthcarePlan class
-        return 3; // Depends on the HEALTHCAREPLAN CLASS - CHANGE IF NEED TO
+        // have in the patients class
+        return 4; // Depends on the TREATMENT CLASS - CHANGE IF NEED TO
     }
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         switch (columnIndex){
-            case 0: return healthcareplans.get(rowIndex).getPlanName();
-            case 1: return healthcareplans.get(rowIndex).getTreatList();
-            case 2: return healthcareplans.get(rowIndex).getMonthlyPayment();
+            case 0: return treatments.get(rowIndex).getName();
+            case 1: return treatments.get(rowIndex).getPrice();
+            case 2: return treatments.get(rowIndex).getPractitioner();
+            case 3: return treatments.get(rowIndex).getDuration();
         }
 
         // Else all fails
