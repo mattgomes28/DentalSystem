@@ -88,10 +88,15 @@ public class AboutUs extends JFrame {
 
 
         //add about us info
-        //JTextField textBox = new JTextField(10);
-        JTextArea textArea = new JTextArea("Testing the text", 5, 10);
-        //JScrollPane scrollPane = new JScrollPane(textArea);
+        JTextArea textArea = new JTextArea("The Sheffield Dental Practice is a welcoming environment that allows our" +
+                " patients to feel comfortable and get the best dental care they deserve. We provide an accessible " +
+                "NHS dentistry and affordable private dental care that our patients can rely on. In addition we offer" +
+                " several different health care plans to suit the needs of our patients whether the patient is " +
+                "just looking for regular check-ups or whether they require treatment. \n" +
+                " Everyone in our practice is very especially caring and friendly. We want our patients to feel" +
+                " important from the moment they arrive to the moment they leave");
         aboutText.add(textArea);
+        textArea.setBackground(contentC);
         textArea.setEditable(false);
 
 
