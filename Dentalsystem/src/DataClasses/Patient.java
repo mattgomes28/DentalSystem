@@ -65,7 +65,7 @@ public class Patient {
         c.openConnection();
 
         String query = "INSERT INTO Patient VALUES (?, ?, ?, ?, ?, ?);";
-        String[] queryArgs = {String.valueOf(id), title, forename, surname, dateOfBirth, contact, houseNo, postcode};
+        String[] queryArgs = {String.valueOf(id), title, forename, surname, dateOfBirth, contact, String.valueOf(houseNo), postcode};
 
         String checkQuery = "SELECT * FROM Patient WHERE id=?;";
         String[] checkArgs = {String.valueOf(getId())};
