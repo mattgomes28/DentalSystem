@@ -36,7 +36,7 @@ public class PatientModel extends AbstractTableModel {
     public int getColumnCount() {
         // This is the number of instance variables we
         // have in the patients class
-        return 6; // Depends on the PATIENTS CLASS - CHANGE IF NEED TO
+        return 8; // Depends on the PATIENTS CLASS - CHANGE IF NEED TO
     }
 
     @Override
@@ -48,6 +48,8 @@ public class PatientModel extends AbstractTableModel {
             case 3: return patients.get(rowIndex).getSurname();
             case 4: return patients.get(rowIndex).getDob();
             case 5: return patients.get(rowIndex).getContact();
+            case 6: return patients.get(rowIndex).getHouseNo();
+            case 7: return patients.get(rowIndex).getPostcode();
         }
 
         // Else all fails
@@ -69,6 +71,8 @@ public class PatientModel extends AbstractTableModel {
             case 3: return "Surname";
             case 4: return "DOB";
             case 5: return "Contact No.";
+            case 6: return "House No.";
+            case 7: return "Postcode";
         }
         return "None";
     }
