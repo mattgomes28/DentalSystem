@@ -7,7 +7,7 @@ public class Treatment {
 
     // Instance variables according to data model
     private String name;
-    private double price;
+    private Double price;
     private Practitioner practitioner;
 
 
@@ -25,7 +25,7 @@ public class Treatment {
 
     // Get methods
     public String getName(){return name;}
-    public double getPrice(){return price;}
+    public Double getPrice(){return price;}
     public Practitioner getPractitioner(){return practitioner;}
 
 }
