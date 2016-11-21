@@ -42,7 +42,7 @@ public class PatientModel extends AbstractTableModel {
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         switch (columnIndex){
-            case 0: return patients.get(rowIndex).getid();
+            case 0: return patients.get(rowIndex).getId();
             case 1: return patients.get(rowIndex).getTitle();
             case 2: return patients.get(rowIndex).getForename();
             case 3: return patients.get(rowIndex).getSurname();

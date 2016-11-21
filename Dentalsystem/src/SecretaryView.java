@@ -103,6 +103,16 @@ public class SecretaryView extends JFrame {
         };
         appointments.addActionListener(appointmentsL);
 
+        ButtonListener patientsL = new ButtonListener(patients) {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                PatientsPage.showPatientsPage(mainContent, mainContent.getWidth(), mainContent.getHeight());
+                contentPane.repaint();
+                contentPane.revalidate();
+            }
+        };
+        patients.addActionListener(patientsL);
+
 
         //add home info
         JTextArea textArea = new JTextArea("Sheffield Dental Practice offers brilliant dental care for people" +
@@ -128,7 +138,7 @@ public class SecretaryView extends JFrame {
         homeText.add(textArea);
 
         // Loading the image
-        ImagePanel homeImg = new ImagePanel(UsefulFunctions.getImage("homeimg.jpg"));
+        ImagePanel homeImg = new ImagePanel(UsefulFunctions.getImage("logo.png"));
         homeText.add(homeImg);
 
         // The Footer Section Goes here

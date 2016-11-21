@@ -15,9 +15,9 @@ public class Patient {
     private String forename;
     private String surname;
     private String dateOfBirth;
-    private Integer contact;
+    private String contact;
 
-    public Patient(Integer id, String title, String forename, String surname, String dateOfBirth, Integer contact){
+    public Patient(Integer id, String title, String forename, String surname, String dateOfBirth, String contact){
 
         //Set the instance variables
         this.id = id;
@@ -31,7 +31,7 @@ public class Patient {
 
 
     // Get functions here
-    public Integer getid() {return id;}
+    public Integer getId() {return id;}
     public String getTitle() {return title;}
     public String getForename() {return forename;}
     public String getSurname() {return surname;}
@@ -49,7 +49,7 @@ public class Patient {
         return String.format("%s/%s/%s", dd, MM, yy);
     }
 
-    public Integer getContact() {return contact;}
+    public String getContact() {return contact;}
 
     public boolean insertPatient(){
 
@@ -57,13 +57,20 @@ public class Patient {
         DBConnection c = new DBConnection();
         c.openConnection();
 
+        String query = "INSERT INTO Patient VALUES (?, ?, ?, ?, ?, ?);";
+        String[] queryArgs = {String.valueOf(id), title, forename, surname, dateOfBirth, contact};
+
+        String checkQuery = "SELECT * FROM Patient WHERE id=?;";
+        String[] checkArgs = {String.valueOf(getId())};
+
 
         // This is where the actual checking happens
         try {
+            ResultSet rSet = c.runQuery(checkQuery, checkArgs);
             if (rSet.next()) return false; // Already in table
 
-            String query = String.format("INSERT INTO Patients VALUES ('%s', '%s', '%s', '%s', '%s', '%s');", id, title, forename, surname, dateOfBirth, contact);
-            c.runUpdate(query);
+            // If reaches this line then patient was inserted
+            c.runUpdate(query, queryArgs);
             c.closeConnection();
             return true;
 

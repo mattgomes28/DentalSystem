@@ -35,7 +35,6 @@ public class AppointmentPage {
         mainContent.removeAll();
 
         // Add our stuff here
-        // Dummy here for the rest of the screen
         GridBagConstraints gbc = new GridBagConstraints();
         mainContent.setBackground(new Color(0,0,0,0));
         mainContent.setPreferredSize(new Dimension(w,h));
