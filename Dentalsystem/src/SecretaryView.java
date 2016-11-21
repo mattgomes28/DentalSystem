@@ -3,6 +3,7 @@ import UI.*;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 
 /**
  * Created by Matheus on 20/11/2016.
@@ -29,7 +30,7 @@ public class SecretaryView extends JFrame {
 
 
         // Gradient drawing in this area
-        FlowLayout layout = new FlowLayout(FlowLayout.LEADING, 0, 0);
+        FlowLayout layout = new FlowLayout(FlowLayout.TRAILING, 0, 0);
         contentPane = new GradientPanel(layout, w, h, 0, 100, bgBlue, 0, h, white);
         contentPane.setPreferredSize(new Dimension(w, h));
 
@@ -50,8 +51,6 @@ public class SecretaryView extends JFrame {
         healthCare = new MenuButton(300, 75, "Health Care", transWhite);
         contact = new MenuButton(300, 75, "Contact", transWhite);
 
-        // Add all the top menu listeners
-
 
 
         // Add all menu buttons to top panel
@@ -67,7 +66,7 @@ public class SecretaryView extends JFrame {
 
 
         // Create the main content pane
-        JPanel mainContent = new JPanel(new GridBagLayout());
+        final JPanel mainContent = new JPanel(new GridBagLayout());
         JPanel homeText = new JPanel();
         int insetSize = 20;
         Insets contentMargin = new Insets(insetSize, insetSize, insetSize, insetSize);
@@ -90,9 +89,19 @@ public class SecretaryView extends JFrame {
 
 
 
-
         // Adding the home stuff
         //AppointmentPage.showAppointments(mainContent, 500, 500);
+
+        // Add all the top menu listeners
+        ButtonListener appointmentsL = new ButtonListener(appointments) {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                AppointmentPage.showAppointments(mainContent, mainContent.getWidth(), mainContent.getHeight());
+                contentPane.repaint();
+                contentPane.revalidate();
+            }
+        };
+        appointments.addActionListener(appointmentsL);
 
 
         //add home info
@@ -110,8 +119,6 @@ public class SecretaryView extends JFrame {
 
 
 
-
-
         contentPane.add(mainContent);
         contentPane.add(footer, BorderLayout.SOUTH);
 
@@ -122,7 +129,7 @@ public class SecretaryView extends JFrame {
         this.add(contentPane);
         this.pack();
         this.revalidate();
-        this.setResizable(false);
+        //this.setResizable(false);
         this.setVisible(true);
     }
 }

@@ -20,7 +20,6 @@ public class Appointment {
     private String patient;
 
 
-
     public Appointment(String startTime, String endTime, Practitioner practitioner, String patient, Treatment treatment){
 
         // Set time variables
@@ -31,9 +30,6 @@ public class Appointment {
         this.practitioner = practitioner;
         this.treatment = treatment;
         this.patient = patient;
-
-        // Parser for time
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.UK);
 
     }
 
@@ -55,8 +51,16 @@ public class Appointment {
     }
 
     public String getStartTime(){return startTime.substring(11, 19);}
-    public String getEndTime(){return startTime.substring(11,19);}
+    public String getEndTime(){return endTime.substring(11,19);}
 
+
+    public void deleteDate(){
+        String query = String.format("DELETE FROM Appointment WHERE startTime = %s AND practitionerID = %s", startTime, practitioner.getId());
+        DBConnection c = new DBConnection();
+        c.openConnection();
+        c.runQuery(query);
+        c.closeConnection();
+    }
 
     // Important static function we'll need to get all appointments
     // in a week
@@ -83,7 +87,7 @@ public class Appointment {
         try{
             while(rSet.next()){
                 patient = rSet.getString(1);
-                practitioner = new Practitioner("Test", "Test", rSet.getString(2));
+                practitioner = new Practitioner(rSet.getInt(2), "Test", "Test", "Dentist");
                 startTime = rSet.getString(3);
                 endTime = rSet.getString(4);
 
@@ -106,7 +110,7 @@ public class Appointment {
         c.openConnection();
 
         // Running the sql query here
-        String query = String.format("SELECT Patient.forename, Practitioner.forename,  Appointment.startTime, Appointment.endTime FROM Appointment, Patient, Practitioner ");
+        String query = String.format("SELECT Patient.forename, Practitioner.id, Practitioner.forename,  Practitioner.surname, Practitioner.role, Appointment.startTime, Appointment.endTime FROM Appointment, Patient, Practitioner ");
         query += String.format("WHERE YEARWEEK(startTime)=2016%s AND Practitioner.id = Appointment.practitionerID AND Patient.id = Appointment.patientID AND Practitioner.role LIKE 'Dentist';", week);
         ResultSet rSet  = c.runQuery(query);
 
@@ -122,9 +126,9 @@ public class Appointment {
         try{
             while(rSet.next()){
                 patient = rSet.getString(1);
-                practitioner = new Practitioner("Test", "Test", rSet.getString(2));
-                startTime = rSet.getString(3);
-                endTime = rSet.getString(4);
+                practitioner = new Practitioner(rSet.getInt(2), rSet.getString(3), rSet.getString(4), rSet.getString(5));
+                startTime = rSet.getString(6);
+                endTime = rSet.getString(7);
 
                 apps.add(new Appointment(startTime, endTime, practitioner, patient, null));
             }

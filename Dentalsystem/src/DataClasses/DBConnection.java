@@ -88,41 +88,6 @@ public class DBConnection {
         return null;
     }
 
-    /**
-     * This function will return a practitioner obj
-     * given the id.
-     * @param id The id of practitioner in DB.
-     * @return practitioner obj, null if all fails.
-     */
-    public Practitioner getPractitioner(int id){
-
-        try {
-            // If the connection is closed return null
-            if (connection.isClosed()) return null;
-
-            // Run the query to select all the practitioners
-            ResultSet rSet = runQuery(String.format("SELECT * FROM Practitioner WHERE id='%s';", id));
-
-            // Vars we need to define the practitioner
-            String fName, sName, role;
-
-            // Run through the result set getting row info
-            rSet.next();
-            fName = rSet.getString(2);
-            sName = rSet.getString(3);
-            role  = rSet.getString(4);
-
-            // Add new instance to practitioners
-            return new Practitioner(fName, sName, role);
-        }
-        catch (SQLException e){
-            System.out.println("no practitioner returned...");
-            e.printStackTrace(); // For debugging
-        }
-
-        // If all fails or no practitioners
-        return null;
-    }
 
 
 

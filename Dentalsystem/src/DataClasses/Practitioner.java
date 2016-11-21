@@ -9,16 +9,19 @@ public class Practitioner {
     private String forename;
     private String surname;
     private String role;
+    private int id;
 
-    public Practitioner(String forename, String surname, String role) {
+    public Practitioner(int id, String forename, String surname, String role) {
 
         // Set the instance vars
         this.forename = forename;
         this.surname = surname;
         this.role = role;
+        this.id = id;
     }
 
     // Simple functions
     public String getName() {return String.format("%s %s", forename, surname);}
     public String getRole() {return role;}
+    public int getId() {return id;}
 }

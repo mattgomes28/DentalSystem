@@ -8,22 +8,16 @@ import java.awt.*;
  */
 public class SideMenu extends JPanel {
 
-
-    // Variables we'll need
-    private JButton[] buttons;
-
-    public SideMenu(int width, int height, JButton[] buttonList){
+    public SideMenu(int width, int height){
         // Init super and instance variables
-        super(new GridLayout(10, 1));
+        super(new GridBagLayout());
+        //super(new GridLayout(10, 1));
 
 
         // Adjust the size
         Dimension size = new Dimension(width, height);
         this.setPreferredSize(size);
-
-        // Just add all the buttons to the component
-        for(JButton button : buttonList){this.add(button);}
-        this.revalidate(); // necessary
+        this.revalidate(); //necessary
 
     }
 

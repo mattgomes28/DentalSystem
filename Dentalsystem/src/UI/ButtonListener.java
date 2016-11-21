@@ -12,17 +12,12 @@ import java.awt.event.MouseEvent;
  */
 public abstract class ButtonListener extends MouseAdapter implements ActionListener{
 
-    private Container content; // Content to add
     private JButton button;
-    private Container target;  // Container target to change
 
-    public ButtonListener(JButton button, Container content, Container target){
+    public ButtonListener(JButton button){
 
         // Just set the fields
         this.button = button;
-        this.content = content;
-        this.target = target;
-
     }
 
     /*
