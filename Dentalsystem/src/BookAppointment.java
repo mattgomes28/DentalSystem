@@ -136,11 +136,6 @@ public class BookAppointment {
                 // The newly created appointment to be inserted
                 Appointment newApp = new Appointment(startTime, endTime, test, patientId.getText(), null);
 
-                // Check if it's already there
-                DBConnection c = new DBConnection();
-                c.openConnection();
-                ResultSet rSet = c.runQuery("SELECT * FROM Appointments WHERE practitionerID='%s AND startTime=%s");
-                c.closeConnection();
                 if(newApp.insertAppointment()) JOptionPane.showMessageDialog(null, "Appointment inserted!");
                 else JOptionPane.showMessageDialog(null, "Appointment not inserted, duplicate!");
 

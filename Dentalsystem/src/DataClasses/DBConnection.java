@@ -72,12 +72,14 @@ public class DBConnection {
     }
 
 
-    public ResultSet runQuery(String query){
+    public ResultSet runQuery(String query, String[] args){
 
         try{
             // Statement to exec query
-            Statement st = connection.createStatement();
-            return st.executeQuery(query);
+            PreparedStatement reader = connection.prepareStatement(query);
+            for (int i = 1; i<=args.length; ++i) reader.setString(i, args[i-1]);
+
+            return reader.executeQuery();
         }
         catch(SQLException s){
             System.out.println("Failed to create statement... Check connection");
@@ -88,11 +90,15 @@ public class DBConnection {
         return null;
     }
 
-    public void runUpdate(String query){
+    public void runUpdate(String query, String[] args){
         try{
             // Statement to exec query
-            Statement st = connection.createStatement();
-            st.executeUpdate(query);
+            PreparedStatement reader = connection.prepareStatement(query);
+
+            for (int i = 1; i<=args.length; i++){
+                reader.setString(i, args[i-1]);
+            }
+            reader.executeUpdate();
         }
         catch(SQLException s){
             System.out.println("Failed to create statement... Check connection");

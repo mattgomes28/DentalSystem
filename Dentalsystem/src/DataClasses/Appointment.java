@@ -58,17 +58,20 @@ public class Appointment {
     public boolean insertAppointment(){
 
         // Check the DB for duplicate appointments
-        String checkQuery = String.format("SELECT * FROM Appointment WHERE practitionerID = '%s' AND startTime <= '%s';", practitioner.getId(), startTime);
+        String checkQuery = "SELECT * FROM Appointment WHERE (practitionerID = ? AND startTime = ?);";
+        String[] args1 = {String.valueOf(practitioner.getId()), startTime};
+
         DBConnection c = new DBConnection();
         c.openConnection();
-        ResultSet rSet = c.runQuery(checkQuery);
+        ResultSet rSet = c.runQuery(checkQuery, args1);
 
         // This is where the actual checking happens
         try {
             if (rSet.next()) return false; // Already in table
 
-            String query = String.format("INSERT INTO Appointment VALUES ('%s', '%s', '%s', '%s');", patient, practitioner.getId(), startTime, endTime);
-            c.runUpdate(query);
+            String query = "INSERT INTO Appointment VALUES (?, ?, ?, ?);";
+            String[] args2 = {patient, String.valueOf(practitioner.getId()), startTime, endTime};
+            c.runUpdate(query, args2);
             c.closeConnection();
             return true;
 
@@ -81,10 +84,11 @@ public class Appointment {
 
     public void deleteApp(){
         System.out.println("Deleting...");
-        String query = String.format("DELETE FROM Appointment WHERE startTime <= '%s' AND practitionerID = '%s'", startTime, practitioner.getId());
+        String query = "DELETE FROM Appointment WHERE startTime = ? AND practitionerID = ?";
+        String[] args = {startTime, String.valueOf(practitioner.getId())};
         DBConnection c = new DBConnection();
         c.openConnection();
-        c.runUpdate(query);
+        c.runUpdate(query, args);
         c.closeConnection();
     }
 
@@ -97,9 +101,10 @@ public class Appointment {
         c.openConnection();
 
         // Running the sql query here
-        String query = String.format("SELECT Patient.forename, Practitioner.forename,  Appointment.startTime, Appointment.endTime FROM Appointment, Patient, Practitioner ");
-        query += String.format("WHERE YEARWEEK(startTime)=2016%s AND Practitioner.id = Appointment.practitionerID AND Patient.id = Appointment.patientID AND Practitioner.role LIKE 'Hygienist';", week);
-        ResultSet rSet  = c.runQuery(query);
+        String query = "SELECT Patient.forename, Practitioner.forename,  Appointment.startTime, Appointment.endTime FROM Appointment, Patient, Practitioner ";
+        query += "WHERE YEARWEEK(startTime)=? AND Practitioner.id = Appointment.practitionerID AND Patient.id = Appointment.patientID AND Practitioner.role LIKE 'Hygienist';";
+        String[] args = {"2016"+week};
+        ResultSet rSet  = c.runQuery(query, args);
 
         // Vars we'll need to create the Appointment object
         String startTime, endTime;
@@ -136,9 +141,10 @@ public class Appointment {
         c.openConnection();
 
         // Running the sql query here
-        String query = String.format("SELECT Patient.forename, Practitioner.id, Practitioner.forename,  Practitioner.surname, Practitioner.role, Appointment.startTime, Appointment.endTime FROM Appointment, Patient, Practitioner ");
-        query += String.format("WHERE YEARWEEK(startTime)=2016%s AND Practitioner.id = Appointment.practitionerID AND Patient.id = Appointment.patientID AND Practitioner.role LIKE 'Dentist';", week);
-        ResultSet rSet  = c.runQuery(query);
+        String query = "SELECT Patient.forename, Practitioner.id, Practitioner.forename,  Practitioner.surname, Practitioner.role, Appointment.startTime, Appointment.endTime FROM Appointment, Patient, Practitioner ";
+        query += "WHERE YEARWEEK(startTime)=? AND Practitioner.id = Appointment.practitionerID AND Patient.id = Appointment.patientID AND Practitioner.role LIKE 'Dentist';";
+        String[] args = {"2016"+week};
+        ResultSet rSet  = c.runQuery(query, args);
 
         // Vars we'll need to create the Appointment object
         String startTime, endTime;
