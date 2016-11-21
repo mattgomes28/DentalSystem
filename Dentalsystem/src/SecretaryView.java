@@ -105,11 +105,31 @@ public class SecretaryView extends JFrame {
 
 
         //add home info
-        //JTextField textBox = new JTextField(10);
-        JTextArea textArea = new JTextArea("Testing the text", 5, 10);
-        //JScrollPane scrollPane = new JScrollPane(textArea);
-        homeText.add(textArea);
+        JTextArea textArea = new JTextArea("Sheffield Dental Practice offers brilliant dental care for people" +
+                "across the city. Our practice aims to take care of our patients’ dental needs with " +
+                "quality services, having many years of experienced staff to ensure all patients are in " +
+                "good hands. " +
+                "Our aim is to make our patients feel comfortable as possible in our friendly but " +
+                "professional environment. \n"  +
+                "We offer several different healthcare plans to our patients so that they can get the " +
+                "suitable dental care they require; a specific healthcare plan for each patient. Our health " +
+                "health plans include a wide range of services, such as check-ups, hygiene meetings, " +
+                "and repair treatments.  \n" +
+                "Help" + "\n\n" +
+                "- Any problems with the system please call on 01143452319.\n" +
+                "General problem solutions:\n" +
+                " - To contact patient go onto patients profile and click on their contact number. \n" +
+                " - To contact the dental practitioner call on 01143948229\n" +
+                " - To access patients healthcare records go into patients profile and select on patients \n" +
+                " - health conditions details under records\n\n" +
+                " - Ordering dental hygiene products such as toothpastes, etc. call on 01149349823");
+        textArea.setBackground(contentC);
         textArea.setEditable(false);
+        homeText.add(textArea);
+
+        // Loading the image
+        ImagePanel homeImg = new ImagePanel(UsefulFunctions.getImage("homeimg.jpg"));
+        homeText.add(homeImg);
 
         // The Footer Section Goes here
         JPanel footer = new JPanel();
