@@ -1,4 +1,5 @@
 package DataClasses;
+import javax.xml.transform.Result;
 import java.text.SimpleDateFormat;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -54,19 +55,36 @@ public class Appointment {
     public String getEndTime(){return endTime.substring(11,19);}
 
 
-    public void insertAppointment(){
-        String query = String.format("INSERT INTO Appointment VALUES ('%s', '%s', '%s', '%s');", patient, practitioner.getId(), startTime, endTime);
+    public boolean insertAppointment(){
+
+        // Check the DB for duplicate appointments
+        String checkQuery = String.format("SELECT * FROM Appointment WHERE practitionerID = '%s' AND startTime <= '%s';", practitioner.getId(), startTime);
+        DBConnection c = new DBConnection();
+        c.openConnection();
+        ResultSet rSet = c.runQuery(checkQuery);
+
+        // This is where the actual checking happens
+        try {
+            if (rSet.next()) return false; // Already in table
+
+            String query = String.format("INSERT INTO Appointment VALUES ('%s', '%s', '%s', '%s');", patient, practitioner.getId(), startTime, endTime);
+            c.runUpdate(query);
+            c.closeConnection();
+            return true;
+
+        }
+        catch (SQLException e){e.printStackTrace();}
+        return false;
+
+
+    }
+
+    public void deleteApp(){
+        System.out.println("Deleting...");
+        String query = String.format("DELETE FROM Appointment WHERE startTime <= '%s' AND practitionerID = '%s'", startTime, practitioner.getId());
         DBConnection c = new DBConnection();
         c.openConnection();
         c.runUpdate(query);
-        c.closeConnection();
-    }
-
-    public void deleteDate(){
-        String query = String.format("DELETE FROM Appointment WHERE startTime = %s AND practitionerID = %s", startTime, practitioner.getId());
-        DBConnection c = new DBConnection();
-        c.openConnection();
-        c.runQuery(query);
         c.closeConnection();
     }
 

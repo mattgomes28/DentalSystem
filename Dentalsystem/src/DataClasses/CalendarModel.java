@@ -29,6 +29,8 @@ public class CalendarModel extends AbstractTableModel {
 
     // Get/set functions
     public int getWeek(){return week;}
+    public Appointment getElement(int index){return appointments.get(index);}
+    public int getListSize() {return appointments.size();}
 
 
     @Override

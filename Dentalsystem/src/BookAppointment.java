@@ -1,11 +1,15 @@
 import DataClasses.Appointment;
+import DataClasses.DBConnection;
 import DataClasses.Practitioner;
 import UI.ButtonListener;
 import UI.TransPanel;
 
 import javax.swing.*;
+import javax.xml.transform.Result;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  * Created by Matheus on 21/11/2016.
@@ -132,8 +136,14 @@ public class BookAppointment {
                 // The newly created appointment to be inserted
                 Appointment newApp = new Appointment(startTime, endTime, test, patientId.getText(), null);
 
-                newApp.insertAppointment();
-                JOptionPane.showMessageDialog(null, "Appointment inserted!");
+                // Check if it's already there
+                DBConnection c = new DBConnection();
+                c.openConnection();
+                ResultSet rSet = c.runQuery("SELECT * FROM Appointments WHERE practitionerID='%s AND startTime=%s");
+                c.closeConnection();
+                if(newApp.insertAppointment()) JOptionPane.showMessageDialog(null, "Appointment inserted!");
+                else JOptionPane.showMessageDialog(null, "Appointment not inserted, duplicate!");
+
 
                 // Clear fields
                 patientId.setText("");
