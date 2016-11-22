@@ -1,9 +1,7 @@
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.image.PackedColorModel;
 import java.io.File;
 import java.sql.ResultSet;
-import java.util.ArrayList;
 
 /**
  * Created by Matheus on 11/11/2016.
@@ -33,7 +31,7 @@ public class UsefulFunctions {
         }
         catch (Exception e){
             System.out.println("Failed to load image.");
-            System.out.println(e);
+            e.printStackTrace();
         }
 
         return img;

@@ -27,13 +27,6 @@ public class Appointment {
 
         // Use super constructor
         super();
-
-        if (role == 1) this.appointments = Appointment.getDayHAppointments(day);
-        else if (role == 2) this.appointments = Appointment.getDayDAppointments(day);
-        else {
-            System.out.println("invalid role. Showing dentist ");
-            this.appointments = Appointment.getWeekDAppointments(day);
-        }
         this.day = day;
 
     }
@@ -70,9 +63,9 @@ public class Appointment {
         // Simple parsing from DB date
         String dd, MM, yy;
 
-        dd = startTime.substring(0, 4);
+        yy = startTime.substring(0, 4);
         MM = startTime.substring(5, 7);
-        yy = startTime.substring(0, 10);
+        dd = startTime.substring(8, 10);
 
         return String.format("%s/%s/%s", dd, MM, yy);
     }
@@ -160,16 +153,15 @@ public class Appointment {
         return apps;
     }
 
-    public static ArrayList<Appointment> getWeekDAppointments(int week) {
-
+    public static ArrayList<Appointment> getDayAppointments(String date, String role){
         // Create DB connection and open it
         DBConnection c = new DBConnection();
         c.openConnection();
 
         // Running the sql query here
         String query = "SELECT Patient.forename, Practitioner.id, Practitioner.forename,  Practitioner.surname, Practitioner.role, Appointment.startTime, Appointment.endTime FROM Appointment, Patient, Practitioner ";
-        query += "WHERE YEARWEEK(startTime)=? AND Practitioner.id = Appointment.practitionerID AND Patient.id = Appointment.patientID AND Practitioner.role LIKE 'Dentist';";
-        String[] args = {"2016" + week};
+        query += "WHERE DATE(Appointment.startTime)=? AND Practitioner.id = Appointment.practitionerID AND Patient.id = Appointment.patientID AND Practitioner.role LIKE ?;";
+        String[] args = {date, role};
         ResultSet rSet = c.runQuery(query, args);
 
         // Vars we'll need to create the Appointment object
@@ -203,50 +195,7 @@ public class Appointment {
     }
 
 
-    // Important static function we'll need to get all appointments
-    // in a day
-    public static ArrayList<Appointment> getDayHAppointments(int day) {
-
-        // Create DB connection and open it
-        DBConnection c = new DBConnection();
-        c.openConnection();
-
-        // Running the sql query here
-        String query = "SELECT Patient.forename, Practitioner.forename,  Appointment.startTime, Appointment.endTime FROM Appointment, Patient, Practitioner ";
-        query += "WHERE YEARDAY(startTime)=? AND Practitioner.id = Appointment.practitionerID AND Patient.id = Appointment.patientID AND Practitioner.role LIKE 'Hygienist';";
-        String[] args = {"2016"+day};
-        ResultSet rSet  = c.runQuery(query, args);
-
-        // Vars we'll need to create the Appointment object
-        String startTime, endTime;
-        String patient;
-        Practitioner practitioner;
-
-        // Array to be returned
-        ArrayList<Appointment> apps = new ArrayList<Appointment>();
-
-
-        try{
-            while(rSet.next()){
-                patient = rSet.getString(1);
-                practitioner = new Practitioner(rSet.getInt(2), "Test", "Test", "Dentist");
-                startTime = rSet.getString(3);
-                endTime = rSet.getString(4);
-
-                apps.add(new Appointment(startTime, endTime, practitioner, patient, null));
-            }
-        }
-        catch (SQLException e){e.printStackTrace();}
-
-        // Close the connection
-        c.closeConnection();
-
-
-        return apps;
-    }
-
-
-    public static ArrayList<Appointment> getDayDAppointments(int day) {
+    public static ArrayList<Appointment> getWeekAppointments(int week, String role) {
 
         // Create DB connection and open it
         DBConnection c = new DBConnection();
@@ -254,8 +203,8 @@ public class Appointment {
 
         // Running the sql query here
         String query = "SELECT Patient.forename, Practitioner.id, Practitioner.forename,  Practitioner.surname, Practitioner.role, Appointment.startTime, Appointment.endTime FROM Appointment, Patient, Practitioner ";
-        query += "WHERE YEARDAY(startTime)=? AND Practitioner.id = Appointment.practitionerID AND Patient.id = Appointment.patientID AND Practitioner.role LIKE 'Dentist';";
-        String[] args = {"2016" + day};
+        query += "WHERE YEARWEEK(startTime)=? AND Practitioner.id = Appointment.practitionerID AND Patient.id = Appointment.patientID AND Practitioner.role LIKE ?;";
+        String[] args = {"2016" + week, role};
         ResultSet rSet = c.runQuery(query, args);
 
         // Vars we'll need to create the Appointment object
@@ -287,6 +236,7 @@ public class Appointment {
         return apps;
 
     }
+
 }
 
 

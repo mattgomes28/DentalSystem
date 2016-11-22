@@ -3,6 +3,7 @@ package DataClasses;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.DateTimeException;
+import java.util.ArrayList;
 
 /**
  * Created by Annie on 21/11/2016.
@@ -10,17 +11,27 @@ import java.time.DateTimeException;
 public class Patient {
 
     // Instance variables according to info model
-    private Integer id;
+    private int id;
     private String title;
     private String forename;
     private String surname;
     private String dateOfBirth;
     private String contact;
-    private Integer houseNo;
-    private String postcode;
-    private HealthcarePlan subscription;
+    private Address address;
 
-    public Patient(Integer id, String title, String forename, String surname, String dateOfBirth, String contact){
+    public Patient(String title, String forename, String surname, String dateOfBirth, String contact, Address address){
+
+        //Set the instance variables
+        this.title = title;
+        this.forename = forename;
+        this.surname = surname;
+        this.dateOfBirth = dateOfBirth;
+        this.contact = contact;
+        this.address = address;
+
+    }
+
+    public Patient(int id, String title, String forename, String surname, String dateOfBirth, String contact, Address address){
 
         //Set the instance variables
         this.id = id;
@@ -29,18 +40,17 @@ public class Patient {
         this.surname = surname;
         this.dateOfBirth = dateOfBirth;
         this.contact = contact;
-        this.houseNo = houseNo;
-        this.postcode = postcode;
-        this.subscription = subscription;
+        this.address = address;
 
     }
 
 
     // Get functions here
-    public Integer getId() {return id;}
+    public int getId(){return this.id;}
     public String getTitle() {return title;}
     public String getForename() {return forename;}
     public String getSurname() {return surname;}
+    public Address getAddress() {return address;}
 
 
     // Ugly but oh well
@@ -56,9 +66,6 @@ public class Patient {
     }
 
     public String getContact() {return contact;}
-    public Integer getHouseNo() {return houseNo;}
-    public String getPostcode() {return postcode;}
-    public HealthcarePlan getSubscription() {return subscription;}
 
 
     public boolean insertPatient(){
@@ -67,28 +74,75 @@ public class Patient {
         DBConnection c = new DBConnection();
         c.openConnection();
 
-        String query = "INSERT INTO Patient VALUES (?, ?, ?, ?, ?, ?);";
-        String[] queryArgs = {String.valueOf(id), title, forename, surname, dateOfBirth, contact, String.valueOf(houseNo), postcode, String.valueOf(subscription)};
+        String query = "INSERT INTO Patient(title, forename, surname, dateOfBirth, contactNumber, houseNo, postcode) VALUES (?, ?, ?, ?, ?, ?, ?);";
+        String[] queryArgs = {title, forename, surname, dateOfBirth, contact, String.valueOf(address.getHouseNo()), address.getPostcode()};
 
-        String checkQuery = "SELECT * FROM Patient WHERE id=?;";
-        String[] checkArgs = {String.valueOf(getId())};
+        // If reaches this line then patient was inserted
+        c.runUpdate(query, queryArgs);
+        c.closeConnection();
+        return true;
+    }
 
+    public boolean delPatient(){
 
-        // This is where the actual checking happens
-        try {
-            ResultSet rSet = c.runQuery(checkQuery, checkArgs);
-            if (rSet.next()) return false; // Already in table
-
-            // If reaches this line then patient was inserted
-            c.runUpdate(query, queryArgs);
+        // Dont delete if id is not set i.e not in table
+        if (this.id != 0){
+            String query = "DELETE FROM patient  WHERE id = ?;";
+            String[] args = {String.valueOf(this.id)};
+            DBConnection c = new DBConnection();
+            c.openConnection();
+            c.runUpdate(query, args);
             c.closeConnection();
             return true;
-
         }
-        catch (SQLException e){e.printStackTrace();}
         return false;
+    }
 
+    /**
+     * This function returns all the patients in the
+     * Patient table.
+     * @return Array of patients or null;
+     *
+     */
+    public static ArrayList<Patient> getPatients(){
 
+        // Preping query
+        String query = "SELECT * FROM Patient;";
+        String[] args = {};
+
+        DBConnection c = new DBConnection();
+        c.openConnection();
+        ResultSet rSet = c.runQuery(query, args);
+
+        // Vars we'll need to instanciate
+        String title, forename, surname,
+                dOB, number;
+        Address a;
+        int id;
+
+        // Array to store the patient
+        ArrayList<Patient> pList = new ArrayList<Patient>();
+
+        // Go through each col and instanciate objs
+        try{
+
+            while(rSet.next()){
+                // Getting info from table
+                id = rSet.getInt(1);
+                title = rSet.getString(2);
+                forename = rSet.getString(3);
+                surname = rSet.getString(4);
+                dOB = rSet.getString(5);
+                number = rSet.getString(6);
+                a = Address.getAddress(rSet.getInt(7), rSet.getString(8));
+
+                pList.add(new Patient(id, title, forename, surname, dOB, number, a));
+            }
+        }catch(SQLException e){e.printStackTrace();}
+
+        if (!pList.isEmpty()) return pList;
+        c.closeConnection();
+        return null;
     }
 
 }

@@ -4,7 +4,6 @@ import UI.ImagePanel;
 import UI.MenuButton;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
@@ -19,7 +18,7 @@ public class PartnersView extends JFrame {
     private JButton home, appointments, healthCare,
             patients, contact;
 
-    public PartnersView(final int w,final int h) {
+    public PartnersView(final int w, final int h, final int role) {
         super();
 
         // Colours we'll need to paint the UI (RGB format)
@@ -87,7 +86,7 @@ public class PartnersView extends JFrame {
         ButtonListener appointmentsL = new ButtonListener(appointments) {
             @Override
             public void actionPerformed(ActionEvent e) {
-                AppointmentPage.showAppointments(mainContent, mainContent.getWidth(), mainContent.getHeight());
+                MyAppointmentsPage.showMyAppointmentsPage(mainContent, mainContent.getWidth(), mainContent.getHeight(), role);
                 contentPane.repaint();
                 contentPane.revalidate();
             }

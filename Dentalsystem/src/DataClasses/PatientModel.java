@@ -24,7 +24,7 @@ public class PatientModel extends AbstractTableModel {
     }
 
     // Get/set functions
-    //public Patient getPatient(){return getPatient();}
+    public ArrayList<Patient> getPatients(){return patients;}
 
     @Override
     public int getRowCount() {
@@ -36,21 +36,19 @@ public class PatientModel extends AbstractTableModel {
     public int getColumnCount() {
         // This is the number of instance variables we
         // have in the patients class
-        return 9; // Depends on the PATIENTS CLASS - CHANGE IF NEED TO
+        return 7; // Depends on the PATIENTS CLASS - CHANGE IF NEED TO
     }
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         switch (columnIndex){
-            case 0: return patients.get(rowIndex).getId();
-            case 1: return patients.get(rowIndex).getTitle();
-            case 2: return patients.get(rowIndex).getForename();
-            case 3: return patients.get(rowIndex).getSurname();
-            case 4: return patients.get(rowIndex).getDob();
-            case 5: return patients.get(rowIndex).getContact();
-            case 6: return patients.get(rowIndex).getHouseNo();
-            case 7: return patients.get(rowIndex).getPostcode();
-            case 8: return patients.get(rowIndex).getSubscription();
+            case 0: return patients.get(rowIndex).getTitle();
+            case 1: return patients.get(rowIndex).getForename();
+            case 2: return patients.get(rowIndex).getSurname();
+            case 3: return patients.get(rowIndex).getDob();
+            case 4: return patients.get(rowIndex).getContact();
+            case 5: return patients.get(rowIndex).getAddress().getHouseNo();
+            case 6: return patients.get(rowIndex).getAddress().getPostcode();
         }
 
         // Else all fails
@@ -66,15 +64,13 @@ public class PatientModel extends AbstractTableModel {
     @Override
     public String getColumnName(int columnIndex) {
         switch (columnIndex){
-            case 0: return "Patient ID";
-            case 1: return "Title";
-            case 2: return "Forename";
-            case 3: return "Surname";
-            case 4: return "DOB";
-            case 5: return "Contact No.";
-            case 6: return "House No.";
-            case 7: return "Postcode";
-            case 8: return "Plan Subscription";
+            case 0: return "Title";
+            case 1: return "Forename";
+            case 2: return "Surname";
+            case 3: return "DOB";
+            case 4: return "Contact No.";
+            case 5: return "House No.";
+            case 6: return "Postcode";
         }
         return "None";
     }

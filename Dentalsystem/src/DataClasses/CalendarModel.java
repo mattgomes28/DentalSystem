@@ -1,4 +1,6 @@
 package DataClasses;
+import com.sun.corba.se.impl.orbutil.DenseIntMapImpl;
+
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
 
@@ -9,20 +11,33 @@ public class CalendarModel extends AbstractTableModel {
 
     private ArrayList<Appointment> appointments;
     private int week;
+    private int day;
 
 
-    public CalendarModel(int week, int role){
+    public CalendarModel(int mode, String date, int week, int role){
 
         // Use super constructor
         super();
 
-        if (role == 1) this.appointments = Appointment.getWeekHAppointments(week);
-        else if (role == 2) this.appointments = Appointment.getWeekDAppointments(week);
-        else {
-            System.out.println("invalid role. Showing dentist ");
-            this.appointments = Appointment.getWeekDAppointments(week);
+        if (mode == 1){
+            if (role == 1) this.appointments = Appointment.getWeekAppointments(week, "Hygienist");
+            else if (role == 2) this.appointments = Appointment.getWeekAppointments(week, "Dentist");
+            else {
+                System.out.println("invalid role. Showing dentist ");
+                this.appointments = Appointment.getWeekAppointments(week, "Dentist");
+            }
         }
+        else{
+            if (role == 1) this.appointments = Appointment.getDayAppointments(date, "Hygienist");
+            else if (role == 2) this.appointments = Appointment.getDayAppointments(date, "Dentist");
+            else {
+                System.out.println("invalid role. Showing dentist ");
+                this.appointments = Appointment.getDayAppointments(date, "Dentist");
+            }
+        }
+
         this.week = week;
+        this.day = day;
 
 
     }

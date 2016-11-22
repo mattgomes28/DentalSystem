@@ -1,7 +1,6 @@
 import UI.*;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
@@ -138,7 +137,7 @@ public class SecretaryView extends JFrame {
         homeText.add(textArea);
 
         // Loading the image
-        ImagePanel homeImg = new ImagePanel(UsefulFunctions.getImage("homeimg.png"));
+        ImagePanel homeImg = new ImagePanel(UsefulFunctions.getImage("logo.png"));
         homeText.add(homeImg);
 
         // The Footer Section Goes here

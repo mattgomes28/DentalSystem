@@ -1,15 +1,11 @@
 import DataClasses.Appointment;
-import DataClasses.DBConnection;
 import DataClasses.Practitioner;
 import UI.ButtonListener;
 import UI.TransPanel;
 
 import javax.swing.*;
-import javax.xml.transform.Result;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 /**
  * Created by Matheus on 21/11/2016.
@@ -155,6 +151,7 @@ public class BookAppointment {
 
         // End bit
         main.add(new TransPanel(), gcb);
+        main.setPreferredSize(new Dimension(500,300));
 
 
 

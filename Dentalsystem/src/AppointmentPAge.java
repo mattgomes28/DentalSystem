@@ -1,10 +1,13 @@
 import DataClasses.Appointment;
 import DataClasses.CalendarModel;
+import DataClasses.Patient;
+import DataClasses.PatientModel;
 import UI.ButtonListener;
 import UI.TransPanel;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Calendar;
 
 /**
@@ -46,7 +49,6 @@ public class AppointmentPage {
 
         // Create both panels in main content
         JPanel left = new JPanel(new GridBagLayout());
-        left.setPreferredSize(new Dimension((int) (0.33*w), (int) (0.33*h)));
         final JPanel right = new JPanel();
 
 
@@ -58,7 +60,7 @@ public class AppointmentPage {
 
         // Add listeners to load calendar on main column (right col)
         final JTable calendarD = new JTable();
-        calendarD.setModel(new CalendarModel(thisWeek, 2));
+        calendarD.setModel(new CalendarModel(1, "", thisWeek, 2));
         ButtonListener dentistL = new ButtonListener(dentist){
 
 
@@ -75,7 +77,7 @@ public class AppointmentPage {
         dentist.addActionListener(dentistL);
 
         final JTable calendarH = new JTable();
-        calendarH.setModel(new CalendarModel(thisWeek, 1));
+        calendarH.setModel(new CalendarModel(1, "", thisWeek, 1));
         ButtonListener hygienistL = new ButtonListener(hygienist){
 
             @Override
@@ -91,16 +93,16 @@ public class AppointmentPage {
         hygienist.addActionListener(hygienistL);
 
         // Control for the calendar here
-        JButton nextWeek = new JButton("Next Week >");
-        JButton prevWeek = new JButton("< Prev Week");
+        final JButton nextWeek = new JButton("Next Week >");
+        final JButton prevWeek = new JButton("< Prev Week");
 
         nextWeek.addActionListener(new ButtonListener(nextWeek) {
             @Override
             public void actionPerformed(ActionEvent e) {
                 offset++;
                 title.setText(String.format("Calendar for 2016 week %s", thisWeek + offset));
-                calendarD.setModel(new CalendarModel(thisWeek + offset, 2));
-                calendarH.setModel(new CalendarModel(thisWeek + offset, 1));
+                calendarD.setModel(new CalendarModel(1, "", thisWeek + offset, 2));
+                calendarH.setModel(new CalendarModel(1, "", thisWeek + offset, 1));
 
                 calendarD.revalidate();
                 calendarH.revalidate();
@@ -112,8 +114,8 @@ public class AppointmentPage {
             public void actionPerformed(ActionEvent e) {
                 offset--;
                 title.setText(String.format("Calendar for 2016 week %s", thisWeek + offset));
-                calendarD.setModel(new CalendarModel(thisWeek + offset, 2));
-                calendarH.setModel(new CalendarModel(thisWeek + offset, 1));
+                calendarD.setModel(new CalendarModel(1, "", thisWeek + offset, 2));
+                calendarH.setModel(new CalendarModel(1, "", thisWeek + offset, 1));
 
                 calendarD.revalidate();
                 calendarH.revalidate();
@@ -159,15 +161,26 @@ public class AppointmentPage {
         gbc.weighty = 1;
         left.add(new TransPanel(), gbc);
 
+
+
         // Events for data controllers here
         ButtonListener bookAppointmentL = new ButtonListener(bookAppointment) {
             @Override
             public void actionPerformed(ActionEvent e) {
+
+                // new title add
+                JLabel newTitle = new JLabel("Book A New Appoitnment");
+                newTitle.setFont(new Font("Comic Sans MS", Font.PLAIN, 20));
+
+
                 calendarMode = 0;
                 right.removeAll();
+                right.add(newTitle);
                 right.add(BookAppointment.getPanel());
                 mainContent.getParent().revalidate();
                 mainContent.getParent().repaint();
+                prevWeek.doClick();
+                nextWeek.doClick();
             }
         };
         bookAppointment.addActionListener(bookAppointmentL);
@@ -207,6 +220,9 @@ public class AppointmentPage {
                 else{
                     JOptionPane.showMessageDialog(null, "No rows were selected. Please try again.");
                 }
+
+                prevWeek.doClick();
+                nextWeek.doClick();
             }
         };
         deleteAppointment.addActionListener(deleteAppointmentL);
@@ -220,7 +236,7 @@ public class AppointmentPage {
 
         // Adding main bits to the panel
         gbc.anchor = GridBagConstraints.FIRST_LINE_START;
-        gbc.insets = new Insets(insetSize,insetSize,insetSize + 20,insetSize);
+        gbc.insets = new Insets(insetSize,insetSize,insetSize ,insetSize);
         gbc.fill = GridBagConstraints.BOTH;
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -230,7 +246,6 @@ public class AppointmentPage {
         left.setBackground(contentC);
         mainContent.add(left, gbc);
 
-        right.setPreferredSize(new Dimension((int) (w*0.66 - 2*insetSize), 500));
         right.setBackground(contentC);
         right.setBorder(BorderFactory.createLineBorder(borderC, 2));
 

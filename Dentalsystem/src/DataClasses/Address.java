@@ -12,7 +12,7 @@ public class Address {
     private Integer houseNo;
     private String postcode;
     private String street;
-    private String district;
+    private String county;
     private String city;
 
     public Address(Integer houseNo, String postcode, String street, String district, String city){
@@ -21,7 +21,7 @@ public class Address {
         this.houseNo = houseNo;
         this.postcode = postcode;
         this.street =  street;
-        this.district = district;
+        this.county = district;
         this.city = city;
     }
 
@@ -30,7 +30,7 @@ public class Address {
     public Integer getHouseNo() {return houseNo;}
     public String getPostcode() {return postcode;}
     public String getStreet() {return street;}
-    public String getDistrict() {return district;}
+    public String getCounty() {return county;}
     public String getCity() {return city;}
 
     public boolean insertAddress() {
@@ -40,7 +40,7 @@ public class Address {
         c.openConnection();
 
         String query = "INSERT INTO Address VALUES (?, ?, ?, ?, ?);";
-        String[] queryArgs = {String.valueOf(houseNo), postcode, street, district, city};
+        String[] queryArgs = {String.valueOf(houseNo), postcode, street, county, city};
 
         String checkQuery = "SELECT * FROM Address WHERE houseNo=? AND postcode=? ;";
         String[] checkArgs = {String.valueOf(houseNo), postcode};
@@ -61,6 +61,30 @@ public class Address {
         }
         return false;
 
+
+    }
+
+
+    public static Address getAddress(int houseNo, String postcode){
+
+        String query = "SELECT * FROM address WHERE (houseNo=? AND postcode LIKE ?);";
+        String[] args = {String.valueOf(houseNo), postcode};
+        DBConnection c = new DBConnection();
+        c.openConnection();
+        ResultSet rSet = c.runQuery(query, args);
+
+        Address a = null;
+
+        // See if we have address in table
+        try{
+            if (!rSet.next()) return null;
+
+            a = new Address(houseNo, postcode, rSet.getString(3), rSet.getString(4), rSet.getString(5));
+
+        }
+        catch (SQLException e){ e.printStackTrace();}
+        c.closeConnection();
+        return a;
 
     }
 

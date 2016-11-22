@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.1
+-- version 4.5.2
 -- http://www.phpmyadmin.net
 --
--- Host: 127.0.0.1
--- Generation Time: Nov 18, 2016 at 01:49 PM
+-- Host: localhost
+-- Generation Time: Nov 21, 2016 at 11:15 PM
 -- Server version: 10.1.19-MariaDB
--- PHP Version: 5.6.24
+-- PHP Version: 7.0.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -18,91 +18,21 @@ SET time_zone = "+00:00";
 
 --
 -- Database: `dentalsystem`
--- 
+--
 
 -- --------------------------------------------------------
 
--- 
--- Table structure for table 'treatment_healthcare_plan'
--- 
-
-CREATE TABLE 'treatment_healthcare_plan' (
-  'planName' varchar(50) NOT NULL,
-  'treatName' varchar(50) NOT NULL,
-  'amount' int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1
-
 --
--- Dumping data for table 'treatments'
--- 
-
-INSERT INTO 'treatment_healthcare_plan' ('planName', 'treatName', 'amount') VALUES
-('Free NHS Plan', 'Check-up', 2);
-
--- --------------------------------------------------------
-
--- 
--- Table structure for table 'patient_healthcare_plan'
--- 
-
-CREATE TABLE 'patient_healthcare_plan' ( 
-  'patientID' int NOT NULL, 
-  'planName' varchar(50) NOT NULL,
-) ENGINE=InnoDB DEFAULT CHARSET=latin1
-
+-- Table structure for table `address`
 --
--- Dumping data for table 'treatments'
--- 
 
-INSERT INTO 'patient_healthcare_plan' ('patientID', 'planName') VALUES
-(1, 'Maintenance Plan');
-
-
--- --------------------------------------------------------
-
--- 
--- Table structure for table 'treatments'
--- 
-
-CREATE TABLE 'treatments' (
-  'treatName' varchar(50) NOT NULL,
-  'treatPrice' double NOT NULL, 
-  'duration' time NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1
-
---
--- Dumping data for table 'treatments'
--- 
-
-INSERT INTO 'treatments' ('treatName', 'treatPrice', 'duration') VALUES
-('Check-up', 45.00, 00:20:00),
-('Hygiene', 45.00, 00:20:00),
-('Fitting a gold Crown', 500.00, 01:00:00),
-('Silver amalgam filling', 90.00, 01:00:00),
-('White composite resin filling', 150.00, 01:00:00);
-
--- -------------------------------------------------------
-
--- 
--- Table structure for table 'healthcare plan'
--- 
-
-CREATE TABLE 'healthcarePlan' (
-  'planName' varchar(50) NOT NULL,
-  'monthlyPayment' double NOT NULL
-) ENGINE=innoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table 'healthcare plan'
--- 
-
-INSERT INTO 'healthcarePlan' ('planName', 'monthlyPayment') VALUES 
-('NHS free Plan',  0.00),
-('Maintenance Plan', 15.00),
-('Oral Heath Plan',  21.00),
-('Dental Repair Plan', 36.00);
-
-
+CREATE TABLE `address` (
+  `houseNo` int(10) NOT NULL,
+  `postcode` varchar(10) NOT NULL,
+  `streetName` varchar(30) NOT NULL,
+  `districtName` varchar(30) NOT NULL,
+  `cityName` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -130,6 +60,27 @@ INSERT INTO `appointment` (`patientID`, `practitionerID`, `startTime`, `endTime`
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `healthcarePlan`
+--
+
+CREATE TABLE `healthcarePlan` (
+  `name` varchar(50) NOT NULL,
+  `price` double NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `healthcarePlan`
+--
+
+INSERT INTO `healthcarePlan` (`name`, `price`) VALUES
+('Dental Repair Plan', 36),
+('Maintenance Plan', 15),
+('NHS free Plan', 0),
+('Oral Heath Plan', 21);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `patient`
 --
 
@@ -139,15 +90,35 @@ CREATE TABLE `patient` (
   `forename` varchar(20) NOT NULL,
   `surname` varchar(20) NOT NULL,
   `dateOfBirth` datetime NOT NULL,
-  `contactNumer` varchar(20) NOT NULL
+  `contactNumer` varchar(20) NOT NULL,
+  `houseNo` int(10) NOT NULL,
+  `postcode` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `patient`
 --
 
-INSERT INTO `patient` (`id`, `title`, `forename`, `surname`, `dateOfBirth`, `contactNumer`) VALUES
-(1, 'Mr', 'Matheus', 'Gomes', '2016-07-29 00:00:00', '0732384783');
+INSERT INTO `patient` (`id`, `title`, `forename`, `surname`, `dateOfBirth`, `contactNumer`, `houseNo`, `postcode`) VALUES
+(1, 'Mr', 'Matheus', 'Gomes', '2016-07-29 00:00:00', '0732384783', 0, '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `patient_healthcare_plan`
+--
+
+CREATE TABLE `patient_healthcare_plan` (
+  `patientID` int(11) NOT NULL,
+  `planName` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `patient_healthcare_plan`
+--
+
+INSERT INTO `patient_healthcare_plan` (`patientID`, `planName`) VALUES
+(1, 'NHS free Plan');
 
 -- --------------------------------------------------------
 
@@ -168,6 +139,51 @@ CREATE TABLE `practitioner` (
 
 INSERT INTO `practitioner` (`id`, `surname`, `forename`, `role`) VALUES
 (1, 'Barker', 'John', 'Dentist');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `treatments`
+--
+
+CREATE TABLE `treatments` (
+  `name` varchar(50) NOT NULL,
+  `price` double NOT NULL,
+  `duration` time NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `treatments`
+--
+
+INSERT INTO `treatments` (`name`, `price`, `duration`) VALUES
+('Check-up', 45, '00:20:00'),
+('Fitting a gold crown', 500, '01:00:00'),
+('Hygiene', 45, '00:20:00'),
+('Silver Amalgam filling', 90, '01:00:00'),
+('White Composite resin filling', 150, '01:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `treatment_healthcare_plan`
+--
+
+CREATE TABLE `treatment_healthcare_plan` (
+  `planName` varchar(50) NOT NULL,
+  `treatName` varchar(50) NOT NULL,
+  `amount` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `treatment_healthcare_plan`
+--
+
+INSERT INTO `treatment_healthcare_plan` (`planName`, `treatName`, `amount`) VALUES
+('NHS free Plan', 'Check-up', 2),
+('NHS free Plan', 'Hygiene', 2),
+('NHS free Plan', 'Silver Amalgam filling', 3),
+('NHS free Plan', 'White Composite resin filling', 3);
 
 -- --------------------------------------------------------
 
@@ -193,11 +209,23 @@ INSERT INTO `user` (`username`, `password`, `type`) VALUES
 --
 
 --
+-- Indexes for table `address`
+--
+ALTER TABLE `address`
+  ADD PRIMARY KEY (`houseNo`,`postcode`);
+
+--
 -- Indexes for table `appointment`
 --
 ALTER TABLE `appointment`
   ADD PRIMARY KEY (`practitionerID`,`startTime`),
   ADD KEY `patientID` (`patientID`);
+
+--
+-- Indexes for table `healthcarePlan`
+--
+ALTER TABLE `healthcarePlan`
+  ADD PRIMARY KEY (`name`);
 
 --
 -- Indexes for table `patient`
@@ -206,10 +234,30 @@ ALTER TABLE `patient`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `patient_healthcare_plan`
+--
+ALTER TABLE `patient_healthcare_plan`
+  ADD PRIMARY KEY (`patientID`,`planName`),
+  ADD KEY `planName` (`planName`);
+
+--
 -- Indexes for table `practitioner`
 --
 ALTER TABLE `practitioner`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `treatments`
+--
+ALTER TABLE `treatments`
+  ADD PRIMARY KEY (`name`);
+
+--
+-- Indexes for table `treatment_healthcare_plan`
+--
+ALTER TABLE `treatment_healthcare_plan`
+  ADD PRIMARY KEY (`planName`,`treatName`),
+  ADD KEY `treatName` (`treatName`);
 
 --
 -- Indexes for table `user`
@@ -247,6 +295,26 @@ ALTER TABLE `appointment`
   ADD CONSTRAINT `appointment_ibfk_1` FOREIGN KEY (`patientID`) REFERENCES `patient` (`id`),
   ADD CONSTRAINT `appointment_ibfk_2` FOREIGN KEY (`practitionerID`) REFERENCES `practitioner` (`id`);
 
+--
+-- Constraints for table `patient_healthcare_plan`
+--
+ALTER TABLE `patient_healthcare_plan`
+  ADD CONSTRAINT `patient_healthcare_plan_ibfk_1` FOREIGN KEY (`patientID`) REFERENCES `patient` (`id`),
+  ADD CONSTRAINT `patient_healthcare_plan_ibfk_2` FOREIGN KEY (`planName`) REFERENCES `healthcarePlan` (`name`);
+
+--
+-- Constraints for table `treatment_healthcare_plan`
+--
+ALTER TABLE `treatment_healthcare_plan`
+  ADD CONSTRAINT `treatment_healthcare_plan_ibfk_1` FOREIGN KEY (`planName`) REFERENCES `healthcarePlan` (`name`),
+  ADD CONSTRAINT `treatment_healthcare_plan_ibfk_2` FOREIGN KEY (`treatName`) REFERENCES `treatments` (`name`);
+
+--
+-- Constraints for table `patient`
+--
+ALTER TABLE `patient`
+  ADD CONSTRAINT `patient_ibfk_1` FOREIGN KEY (`houseNo`) REFERENCES `address` (`houseNo`),
+  ADD CONSTRAINT `patient_ibfk_2` FOREIGN KEY (`postcode`) REFERENCES `address` (`postcode`);
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
