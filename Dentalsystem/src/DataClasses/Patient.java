@@ -18,6 +18,7 @@ public class Patient {
     private String contact;
     private Integer houseNo;
     private String postcode;
+    private HealthcarePlan subscription;
 
     public Patient(Integer id, String title, String forename, String surname, String dateOfBirth, String contact){
 
@@ -30,6 +31,7 @@ public class Patient {
         this.contact = contact;
         this.houseNo = houseNo;
         this.postcode = postcode;
+        this.subscription = subscription;
 
     }
 
@@ -56,6 +58,7 @@ public class Patient {
     public String getContact() {return contact;}
     public Integer getHouseNo() {return houseNo;}
     public String getPostcode() {return postcode;}
+    public HealthcarePlan getSubscription() {return subscription;}
 
 
     public boolean insertPatient(){
@@ -65,7 +68,7 @@ public class Patient {
         c.openConnection();
 
         String query = "INSERT INTO Patient VALUES (?, ?, ?, ?, ?, ?);";
-        String[] queryArgs = {String.valueOf(id), title, forename, surname, dateOfBirth, contact, String.valueOf(houseNo), postcode};
+        String[] queryArgs = {String.valueOf(id), title, forename, surname, dateOfBirth, contact, String.valueOf(houseNo), postcode, String.valueOf(subscription)};
 
         String checkQuery = "SELECT * FROM Patient WHERE id=?;";
         String[] checkArgs = {String.valueOf(getId())};

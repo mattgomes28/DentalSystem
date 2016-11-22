@@ -20,6 +20,32 @@ public class Appointment {
     private Treatment treatment;
     private String patient;
 
+    private ArrayList<Appointment> appointments;
+    private int day;
+
+    public Appointment(int day, int role){
+
+        // Use super constructor
+        super();
+
+        if (role == 1) this.appointments = Appointment.getDayHAppointments(day);
+        else if (role == 2) this.appointments = Appointment.getDayDAppointments(day);
+        else {
+            System.out.println("invalid role. Showing dentist ");
+            this.appointments = Appointment.getWeekDAppointments(day);
+        }
+        this.day = day;
+
+    }
+
+    // additional get functions
+    public int getDay(){return day;}
+
+
+
+
+
+
 
     public Appointment(String startTime, String endTime, Practitioner practitioner, String patient, Treatment treatment){
 
@@ -143,7 +169,52 @@ public class Appointment {
         // Running the sql query here
         String query = "SELECT Patient.forename, Practitioner.id, Practitioner.forename,  Practitioner.surname, Practitioner.role, Appointment.startTime, Appointment.endTime FROM Appointment, Patient, Practitioner ";
         query += "WHERE YEARWEEK(startTime)=? AND Practitioner.id = Appointment.practitionerID AND Patient.id = Appointment.patientID AND Practitioner.role LIKE 'Dentist';";
-        String[] args = {"2016"+week};
+        String[] args = {"2016" + week};
+        ResultSet rSet = c.runQuery(query, args);
+
+        // Vars we'll need to create the Appointment object
+        String startTime, endTime;
+        String patient;
+        Practitioner practitioner;
+
+        // Array to be returned
+        ArrayList<Appointment> apps = new ArrayList<Appointment>();
+
+
+        try {
+            while (rSet.next()) {
+                patient = rSet.getString(1);
+                practitioner = new Practitioner(rSet.getInt(2), rSet.getString(3), rSet.getString(4), rSet.getString(5));
+                startTime = rSet.getString(6);
+                endTime = rSet.getString(7);
+
+                apps.add(new Appointment(startTime, endTime, practitioner, patient, null));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        // Close the connection
+        c.closeConnection();
+
+
+        return apps;
+
+    }
+
+
+    // Important static function we'll need to get all appointments
+    // in a day
+    public static ArrayList<Appointment> getDayHAppointments(int day) {
+
+        // Create DB connection and open it
+        DBConnection c = new DBConnection();
+        c.openConnection();
+
+        // Running the sql query here
+        String query = "SELECT Patient.forename, Practitioner.forename,  Appointment.startTime, Appointment.endTime FROM Appointment, Patient, Practitioner ";
+        query += "WHERE YEARDAY(startTime)=? AND Practitioner.id = Appointment.practitionerID AND Patient.id = Appointment.patientID AND Practitioner.role LIKE 'Hygienist';";
+        String[] args = {"2016"+day};
         ResultSet rSet  = c.runQuery(query, args);
 
         // Vars we'll need to create the Appointment object
@@ -158,9 +229,9 @@ public class Appointment {
         try{
             while(rSet.next()){
                 patient = rSet.getString(1);
-                practitioner = new Practitioner(rSet.getInt(2), rSet.getString(3), rSet.getString(4), rSet.getString(5));
-                startTime = rSet.getString(6);
-                endTime = rSet.getString(7);
+                practitioner = new Practitioner(rSet.getInt(2), "Test", "Test", "Dentist");
+                startTime = rSet.getString(3);
+                endTime = rSet.getString(4);
 
                 apps.add(new Appointment(startTime, endTime, practitioner, patient, null));
             }
@@ -174,4 +245,48 @@ public class Appointment {
         return apps;
     }
 
+
+    public static ArrayList<Appointment> getDayDAppointments(int day) {
+
+        // Create DB connection and open it
+        DBConnection c = new DBConnection();
+        c.openConnection();
+
+        // Running the sql query here
+        String query = "SELECT Patient.forename, Practitioner.id, Practitioner.forename,  Practitioner.surname, Practitioner.role, Appointment.startTime, Appointment.endTime FROM Appointment, Patient, Practitioner ";
+        query += "WHERE YEARDAY(startTime)=? AND Practitioner.id = Appointment.practitionerID AND Patient.id = Appointment.patientID AND Practitioner.role LIKE 'Dentist';";
+        String[] args = {"2016" + day};
+        ResultSet rSet = c.runQuery(query, args);
+
+        // Vars we'll need to create the Appointment object
+        String startTime, endTime;
+        String patient;
+        Practitioner practitioner;
+
+        // Array to be returned
+        ArrayList<Appointment> apps = new ArrayList<Appointment>();
+
+
+        try {
+            while (rSet.next()) {
+                patient = rSet.getString(1);
+                practitioner = new Practitioner(rSet.getInt(2), rSet.getString(3), rSet.getString(4), rSet.getString(5));
+                startTime = rSet.getString(6);
+                endTime = rSet.getString(7);
+
+                apps.add(new Appointment(startTime, endTime, practitioner, patient, null));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        // Close the connection
+        c.closeConnection();
+
+
+        return apps;
+
+    }
 }
+
+
